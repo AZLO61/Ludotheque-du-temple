@@ -109,8 +109,8 @@
         <button class="filter-btn" data-filter-rec="Ambiance">Ambiance</button>
         <button class="filter-btn" data-filter-rec="Jeu à 2">Jeu à 2</button>
         <button class="filter-btn" data-filter-rec="Jeu à 4">Jeu à 4</button>
+        <button class="filter-btn" data-filter-rec="Jeu à 4">+6 joueurs</button>
         <button class="filter-btn" data-filter-rec="Cartes">Cartes</button>
-        <button class="filter-btn" data-filter-rec="Plaisir coupable">Plaisir coupable</button>
         <button class="filter-btn filters__reset" data-filter-rec-clear>Réinitialiser</button>
       </div>
     </div>
@@ -247,7 +247,7 @@
     "Sushi Go Party !": "https://www.myludo.fr/img/jeux/1747498177/160/cd/55684.png",
     "Spicy": "https://www.myludo.fr/img/jeux/1743765976/160/by/50117.png",
     "Sobek 2 Joueurs": "https://www.myludo.fr/img/jeux/1690635758/160/bu/46597.png",
-    "So Clover !": "https://www.myludo.fr/img/jeux/1742157756/160/bv/47856.png",
+    "So Clover": "https://www.myludo.fr/img/jeux/1742157756/160/bv/47856.png",
     "Skull King": "https://www.myludo.fr/img/jeux/1775209134/160/cg/58121.png",
     "Secret Identity": "https://www.myludo.fr/img/jeux/1740754802/160/cc/54732.png",
     "Salade 2 Points": "https://www.myludo.fr/img/jeux/1777902022/160/bk/36568.png",
@@ -257,7 +257,7 @@
     "Papayoo": "https://www.myludo.fr/img/jeux/1726139714/160/bj/35247.png",
     "Oriflamme": "https://www.myludo.fr/img/jeux/1741724216/160/bj/35222.png",
     "Olé ! Guacamolé": "https://www.myludo.fr/img/jeux/1737222009/160/bu/46579.png",
-    "Mille Sabords !": "https://www.myludo.fr/img/jeux/1732882597/160/ac/2734.png",
+    "Mille Sabords": "https://www.myludo.fr/img/jeux/1732882597/160/ac/2734.png",
     "Mes Amis Sont...": "https://www.myludo.fr/img/jeux/1758913216/160/ca/52095.png",
     "Maudit Mot Dit": "https://www.myludo.fr/img/jeux/1772980501/160/ce/56028.png",
     "Little Secret": "https://www.myludo.fr/img/jeux/1753268027/160/cg/58390.png",
@@ -303,7 +303,7 @@
     "IQ Fit": "https://www.myludo.fr/img/jeux/1778317325/160/bl/37706.png",
     "Mr Troove": "https://www.myludo.fr/img/jeux/1615901764/160/bw/48167.png",
     "Mes Premiers Jeux – Premier Verger": "https://www.myludo.fr/img/jeux/1758789448/160/bc/28751.png",
-    "Munchkin – Édition Révisée": "https://www.myludo.fr/img/jeux/1740584642/160/af/5447.png",
+    "Munchkin": "https://www.myludo.fr/img/jeux/1740584642/160/af/5447.png",
     "7 Wonders Duel": "https://www.myludo.fr/img/jeux/1777629538/160/ab/1005.png",
     "Celestia": "https://www.myludo.fr/img/jeux/1766745242/160/aa/817.png",
     "Hanabi": "https://www.myludo.fr/img/jeux/1781267785/160/by/50823.png",
@@ -390,7 +390,10 @@
     "La bonne paye": "https://www.myludo.fr/img/jeux/1729379032/160/ag/6591.png",
     "Carcassonne": "https://www.myludo.fr/img/jeux/1734194849/160/ci/60991.png",
     "Catan marin": "https://www.myludo.fr/img/jeux/1763126769/160/cb/53265.png",
-    "Monopoly deal": "https://www.myludo.fr/img/jeux/1771096161/160/cz/77366.png"
+    "Monopoly deal": "https://www.myludo.fr/img/jeux/1771096161/160/cz/77366.png",
+    "Mito": "https://www.myludo.fr/img/jeux/1776762646/160/bv/47318.png",
+    "Betrayal at Baldur's Gate": "https://www.myludo.fr/img/jeux/1697745808/160/ct/71347.png"
+
   };
 
   const CASES = [
@@ -505,10 +508,10 @@
     { nom: "Unlock ! – Exotic Adventures", case: "caseC", emplacement: 9, joueurs: [1, 6], duree: 60, categories: ["Énigme", "Cartes", "Coopératif"] },
     { nom: "Unlock ! – Epic Adventures", case: "caseC", emplacement: 9, joueurs: [1, 6], duree: 60, categories: ["Énigme", "Cartes", "Coopératif"] },
     { nom: "Unlock ! – Mythic Adventures", case: "caseC", emplacement: 9, joueurs: [1, 6], duree: 60, categories: ["Énigme", "Cartes", "Coopératif",] },
-    { nom: "Behind", case: "caseC", emplacement: 9, joueurs: [2, 6], duree: 60, categories: ["Énigme", "Plateau", "+6 joueurs"] },
+    { nom: "Behind", case: "caseC", emplacement: 9, joueurs: [1, 4], duree: 60, categories: ["Énigme", "Solo"] },
     { nom: "TTMC 2 – Tu Te (re)mets Combien ?", case: "caseC", emplacement: 4, joueurs: [2, 20], duree: 60, categories: ["Ambiance", "Cartes", "+6 joueurs"] },
     { nom: "TTMC – Tu Te Mets Combien ?", case: "caseC", emplacement: 4, joueurs: [2, 20], duree: 60, categories: ["Ambiance", "Cartes", "+6 joueurs"] },
-    { nom: "Toy battle", case: "caseB", emplacement: 3, joueurs: [2, 4], duree: 20, categories: ["Plateau", "Jeu à 2"] },
+    { nom: "Toy battle", case: "caseB", emplacement: 3, joueurs: [2, 4], duree: 20, categories: ["Plateau", "Jeu à 2","Pose de tuiles"] },
     { nom: "The Mind", case: "caseC", emplacement: 6, joueurs: [2, 4], duree: 15, categories: ["Cartes", "Coopératif"] },
     { nom: "Texto 2.0", case: "caseC", emplacement: 6, joueurs: [2, 12], duree: 45, categories: ["Ambiance", "Cartes", "Rapidité", "+6 joueurs"] },
     { nom: "Texto !", case: "caseC", emplacement: 6, joueurs: [2, 12], duree: 45, categories: ["Ambiance", "Cartes", "Rapidité", "+6 joueurs"] },
@@ -516,7 +519,7 @@
     { nom: "Captain flip", case: "caseB", emplacement: 7, joueurs: [2, 5], duree: 20, categories: ["Pose de tuiles", "Jeu à 4"] },
     { nom: "Spicy", case: "caseC", emplacement: 6, joueurs: [2, 6], duree: 30, categories: ["Cartes", "Ambiance", "+6 joueurs"] },
     { nom: "Sobek 2 Joueurs", case: "caseB", emplacement: 3, joueurs: [2, 2], duree: 20, categories: ["Plateau", "Cartes", "Jeu à 2"] },
-    { nom: "So Clover !", case: "caseC", emplacement: 3, joueurs: [2, 6], duree: 30, categories: ["Ambiance", "Énigme", "Coopératif", "+6 joueurs"] },
+    { nom: "So Clover", case: "caseC", emplacement: 3, joueurs: [2, 6], duree: 30, categories: ["Ambiance", "Énigme", "Coopératif", "+6 joueurs"] },
     { nom: "Skull King", case: "caseC", emplacement: 6, joueurs: [2, 6], duree: 30, categories: ["Cartes", "Ambiance", "+6 joueurs"] },
     { nom: "Secret Identity", case: "caseB", emplacement: 4, joueurs: [3, 8], duree: 30, categories: ["Ambiance", "Identité cachée", "+6 joueurs"] },
     { nom: "Salade 2 Points", case: "caseA", emplacement: 1, joueurs: [2, 6], duree: 15, categories: ["Cartes", "+6 joueurs"] },
@@ -524,13 +527,13 @@
     { nom: "The gang", case: "caseC", emplacement: 6, joueurs: [2, 6], duree: 30, categories: ["Cartes", "Coopératif", "+6 joueurs"] },
     { nom: "Dracula vs Van helsing", case: "caseB", emplacement: 2, joueurs: [2, 2], duree: 30, categories: ["Cartes", "Jeu à 2", "Stratégie"] },
     { nom: "Qui Paire Gagne", case: "caseC", emplacement: 3, joueurs: [2, 8], duree: 20, categories: ["Cartes", "Ambiance", "+6 joueurs"] },
-    { nom: "Privacy – No Limit ?!", case: "caseC", emplacement: 1, joueurs: [3, 8], duree: 45, categories: ["Ambiance", "Plaisir coupable", "+6 joueurs"] },
+    { nom: "Privacy – No Limit ?!", case: "caseC", emplacement: 1, joueurs: [3, 8], duree: 45, categories: ["Ambiance", "+6 joueurs"] },
     { nom: "Papayoo", case: "caseC", emplacement: 6, joueurs: [2, 6], duree: 30, categories: ["Cartes", "+6 joueurs"] },
     { nom: "Oriflamme", case: "caseB", emplacement: 4, joueurs: [2, 5], duree: 20, categories: ["Cartes", "Identité cachée"] },
     { nom: "Olé ! Guacamolé", case: "caseA", emplacement: 1, joueurs: [3, 6], duree: 20, categories: ["Ambiance", "Rapidité", "+6 joueurs"] },
-    { nom: "Planche pirate", case: "caseA", emplacement: 4, joueurs: [2, 6], duree: 30, categories: ["Ambiance", "Adresse", "+6 joueurs"] },
-    { nom: "Mille Sabords !", case: "caseB", emplacement: 6, joueurs: [2, 5], duree: 20, categories: ["Dés"] },
-    { nom: "Mes Amis Sont...", case: "caseC", emplacement: 3, joueurs: [3, 6], duree: 30, categories: ["Ambiance", "Plaisir coupable", "+6 joueurs"] },
+    { nom: "Planche pirate", case: "caseA", emplacement: 4, joueurs: [2, 4], duree: 30, categories: ["Ambiance", "Adresse","Stop ou encore"] },
+    { nom: "Mille Sabords", case: "caseB", emplacement: 6, joueurs: [2, 5], duree: 20, categories: ["Dés","Stop ou encore"] },
+    { nom: "Mes Amis Sont...", case: "caseC", emplacement: 3, joueurs: [3, 6], duree: 30, categories: ["Ambiance", "+6 joueurs"] },
     { nom: "Maudit Mot Dit", case: "caseC", emplacement: 3, joueurs: [2, 8], duree: 30, categories: ["Ambiance", "Énigme", "+6 joueurs"] },
     { nom: "Little Secret", case: "caseB", emplacement: 4, joueurs: [3, 8], duree: 20, categories: ["Identité cachée", "Ambiance", "+6 joueurs"] },
     { nom: "Villainous L'Assemblée des Vilains", case: "caseC", emplacement: 7, joueurs: [2, 6], duree: 45, categories: ["Plateau", "Stratégie", "+6 joueurs"] },
@@ -544,10 +547,10 @@
     { nom: "City Chase", case: "caseA", emplacement: 4, joueurs: [2, 6], duree: 30, categories: ["Déduction", "Enfants", "Plateau"] },
     { nom: "Bazar Bizarre 2.0", case: "caseA", emplacement: 4, joueurs: [2, 8], duree: 30, categories: ["Adresse", "Rapidité", "Ambiance", "+6 joueurs"] },
     { nom: "L'ile des mots dits", case: "caseC", emplacement: 3, joueurs: [2, 6], duree: 30, categories: ["Ambiance", "+6 joueurs"] },
-    { nom: "Akropolis", case: "caseC", emplacement: 10, joueurs: [2, 4], duree: 30, categories: ["Pose de tuiles", "Stratégie", "Jeu à 4"] },
+    { nom: "Akropolis", case: "caseC", emplacement: 10, joueurs: [2, 4], duree: 45, categories: ["Pose de tuiles", "Stratégie", "Jeu à 4"] },
     { nom: "6 Qui Surprend !", case: "caseC", emplacement: 5, joueurs: [2, 6], duree: 30, categories: ["Cartes", "+6 joueurs"] },
-    { nom: "101 – Le Match", case: "caseA", emplacement: 2, joueurs: [2, 4], duree: 30, categories: ["Cartes"] },
-    { nom: "Five Tribes – Les Djinns de Naqala", case: "caseC", emplacement: 7, joueurs: [2, 4], duree: 60, categories: ["Plateau", "Stratégie"] },
+    { nom: "101 – Le Match", case: "caseA", emplacement: 2, joueurs: [2, 4], duree: 30, categories: ["Cartes","Pose de tuiles"] },
+    { nom: "Five Tribes – Les Djinns de Naqala", case: "caseC", emplacement: 7, joueurs: [2, 4], duree: 60, categories: ["Plateau", "Stratégie", "Jeu à 4"] },
     { nom: "Small World", case: "caseC", emplacement: 7, joueurs: [2, 5], duree: 80, categories: ["Plateau", "Stratégie"] },
     { nom: "Wingspan – À Tire d'Ailes", case: "caseC", emplacement: 7, joueurs: [1, 5], duree: 120, categories: ["Plateau", "Cartes", "Stratégie"] },
     { nom: "Clank ! – Les Aventuriers du Deck-Building", case: "caseC", emplacement: 7, joueurs: [2, 4], duree: 45, categories: ["Plateau", "Deck-building", "Cartes"] },
@@ -569,8 +572,8 @@
     { nom: "Unlock ! – Heroic Adventures", case: "caseC", emplacement: 9, joueurs: [1, 6], duree: 60, categories: ["Énigme", "Cartes", "Coopératif", "+6 joueurs"] },
     { nom: "Splendor", case: "caseC", emplacement: 10, joueurs: [2, 4], duree: 30, categories: ["Cartes", "Stratégie", "Jeu à 4"] },
     { nom: "Splendor Duel", case: "caseC", emplacement: 10, joueurs: [2, 2], duree: 30, categories: ["Cartes", "Stratégie", "Jeu à 2"] },
-    { nom: "Dixit", case: "caseC", emplacement: 10, joueurs: [3, 8], duree: 30, categories: ["Ambiance", "Cartes", "+6 joueurs"] },
-    { nom: "Kingdomino", case: "caseC", emplacement: 10, joueurs: [2, 4], duree: 15, categories: ["Pose de tuiles", "Jeu à 4"] },
+    { nom: "Dixit", case: "caseC", emplacement: 10, joueurs: [3, 8], duree: 30, categories: ["Ambiance", "Cartes", "+6 joueurs", "Déduction"] },
+    { nom: "Kingdomino", case: "caseC", emplacement: 10, joueurs: [2, 4], duree: 15, categories: ["Pose de tuiles", "Jeu à 4", "Jeu à 2"] },
     { nom: "Cryptide", case: "caseC", emplacement: 10, joueurs: [2, 5], duree: 45, categories: ["Énigme", "Plateau", "Stratégie"] },
     { nom: "Chronicles of Crime", case: "caseC", emplacement: 8, joueurs: [1, 5], duree: 60, categories: ["Énigme", "Coopératif"] },
     { nom: "Nom d'un Renard !", case: "caseA", emplacement: 4, joueurs: [2, 4], duree: 30, categories: ["Énigme", "Enfants", "Coopératif"] },
@@ -579,17 +582,17 @@
     { nom: "IQ Fit", case: "caseA", emplacement: 2, joueurs: [1, 1], duree: 20, categories: ["Énigme"] },
     { nom: "Mr Troove", case: "caseC", emplacement: 4, joueurs: [2, 8], duree: 30, categories: ["Ambiance", "Quiz", "+6 joueurs"] },
     { nom: "Mes Premiers Jeux – Premier Verger", case: "caseA", emplacement: 4, joueurs: [2, 4], duree: 15, categories: ["Plateau", "Enfants"] },
-    { nom: "Munchkin – Édition Révisée", case: "caseC", emplacement: 5, joueurs: [3, 6], duree: 60, categories: ["Cartes", "Ambiance"] },
+    { nom: "Munchkin", case: "caseC", emplacement: 5, joueurs: [3, 6], duree: 60, categories: ["Cartes", "Ambiance"] },
     { nom: "7 Wonders Duel", case: "caseB", emplacement: 2, joueurs: [2, 2], duree: 45, categories: ["Cartes", "Jeu à 2", "Stratégie"] },
     { nom: "Celestia", case: "caseC", emplacement: 11, joueurs: [2, 6], duree: 30, categories: ["Ambiance", "Cartes", "+6 joueurs"] },
     { nom: "Hanabi", case: "caseA", emplacement: 2, joueurs: [2, 5], duree: 25, categories: ["Cartes", "Coopératif"] },
     { nom: "Not Alone", case: "caseB", emplacement: 4, joueurs: [2, 7], duree: 45, categories: ["Identité cachée", "Cartes", "+6 joueurs"] },
     { nom: "MicroMacro Crime City – Full House", case: "caseC", emplacement: 9, joueurs: [1, 4], duree: 60, categories: ["Énigme", "Coopératif"] },
     { nom: "Magic Maze", case: "caseB", emplacement: 7, joueurs: [1, 8], duree: 30, categories: ["Ambiance", "Plateau", "Rapidité", "+6 joueurs"] },
-    { nom: "Pigeon pigeon", case: "caseC", emplacement: 3, joueurs: [2, 10], duree: 30, categories: ["Ambiance", "Plaisir coupable", "+6 joueurs"] },
+    { nom: "Pigeon pigeon", case: "caseC", emplacement: 3, joueurs: [2, 10], duree: 30, categories: ["Ambiance", "+6 joueurs"] },
     { nom: "Chakra", case: "caseB", emplacement: 7, joueurs: [2, 4], duree: 30, categories: ["Plateau", "Jeu à 4"] },
     { nom: "Time's Up ! Party – Version Jaune", case: "caseC", emplacement: 1, joueurs: [4, 12], duree: 60, categories: ["Ambiance", "Rapidité", "+6 joueurs"] },
-    { nom: "Codenames", case: "caseC", emplacement: 3, joueurs: [2, 8], duree: 15, categories: ["Ambiance", "Énigme", "+6 joueurs"] },
+    { nom: "Codenames", case: "caseC", emplacement: 3, joueurs: [2, 8], duree: 15, categories: ["Ambiance", "Déduction", "+6 joueurs"] },
     { nom: "Welcome To Your Perfect Home", case: "caseB", emplacement: 6, joueurs: [1, 100], duree: 30, categories: ["Cartes", "Stratégie", "+6 joueurs"] },
     { nom: "Avalon", case: "caseB", emplacement: 4, joueurs: [5, 10], duree: 30, categories: ["Ambiance", "Identité cachée", "+6 joueurs"] },
     { nom: "Perudo Jumbo", case: "caseC", emplacement: 1, joueurs: [2, 6], duree: 20, categories: ["Dés", "Ambiance", "+6 joueurs"] },
@@ -602,12 +605,12 @@
     { nom: "Bang ! – Le Jeu de Dés", case: "caseB", emplacement: 4, joueurs: [3, 8], duree: 30, categories: ["Dés", "Identité cachée", "+6 joueurs"] },
     { nom: "Jaipur", case: "caseB", emplacement: 3, joueurs: [2, 2], duree: 30, categories: ["Cartes", "Jeu à 2"] },
     { nom: "Happy City", case: "caseA", emplacement: 2, joueurs: [1, 4], duree: 45, categories: ["Cartes", "Jeu à 4"] },
-    { nom: "Roi & Compagnie", case: "caseA", emplacement: 4, joueurs: [2, 5], duree: 40, categories: ["Dés"] },
-    { nom: "Skull", case: "caseA", emplacement: 2, joueurs: [3, 6], duree: 15, categories: ["Ambiance", "Cartes", "+6 joueurs"] },
+    { nom: "Roi & Compagnie", case: "caseA", emplacement: 4, joueurs: [2, 5], duree: 40, categories: ["Dés", "Enfants"] },
+    { nom: "Skull", case: "caseA", emplacement: 2, joueurs: [3, 6], duree: 15, categories: ["Ambiance", "Cartes"] },
     { nom: "6 Qui Prend !", case: "caseC", emplacement: 6, joueurs: [2, 10], duree: 45, categories: ["Cartes", "+6 joueurs"] },
     { nom: "The Crew", case: "caseC", emplacement: 6, joueurs: [2, 5], duree: 20, categories: ["Cartes", "Coopératif"] },
     { nom: "Schotten Totten", case: "caseB", emplacement: 3, joueurs: [2, 2], duree: 20, categories: ["Cartes", "Jeu à 2"] },
-    { nom: "Twin It !", case: "caseC", emplacement: 6, joueurs: [2, 6], duree: 30, categories: ["Ambiance", "Rapidité", "Adresse", "+6 joueurs"] },
+    { nom: "Twin It !", case: "caseC", emplacement: 6, joueurs: [2, 6], duree: 30, categories: ["Ambiance", "Rapidité", "Adresse"] },
     { nom: "Loup-Garou Pour Une Nuit", case: "caseB", emplacement: 4, joueurs: [3, 10], duree: 30, categories: ["Ambiance", "Identité cachée", "+6 joueurs"] },
     { nom: "Poule Poule", case: "caseA", emplacement: 2, joueurs: [2, 8], duree: 20, categories: ["Ambiance", "Rapidité", "Cartes", "+6 joueurs"] },
     { nom: "Le Poker des Cafards", case: "caseC", emplacement: 6, joueurs: [2, 6], duree: 30, categories: ["Cartes", "Ambiance", "+6 joueurs"] },
@@ -635,7 +638,7 @@
     { nom: "Order Overload", case: "caseA", emplacement: 1, joueurs: [2, 6], duree: 30, categories: ["Cartes", "Coopératif", "+6 joueurs", "Ambiance"] },
     { nom: "Unmatched", case: "caseC", emplacement: 11, joueurs: [2, 4], duree: 30, categories: ["Plateau", "Jeu à 2", "Jeu à 4", "Stratégie"] },
     { nom: "Time bomb Evolution", case: "caseB", emplacement: 4, joueurs: [4, 6], duree: 25, categories: ["Ambiance", "Identité cachée"] },
-    { nom: "Pic Together", case: "caseA", emplacement: 3, joueurs: [2, 6], duree: 45, categories: ["Ambiance", "Dessin", "+6 joueurs"] },
+    { nom: "Pic Together", case: "caseA", emplacement: 3, joueurs: [2, 7], duree: 45, categories: ["Ambiance", "Dessin", "+6 joueurs"] },
     { nom: "Cascadia", case: "caseC", emplacement: 10, joueurs: [1, 4], duree: 30, categories: ["Pose de tuiles", "Jeu à 4", "Solo", "Jeu à 2"] },
     { nom: "2 pommes 3 pains", case: "caseA", emplacement: 1, joueurs: [2, 6], duree: 15, categories: ["Ambiance", "Cartes", "Rapidité"] },
     { nom: "Kronologic", case: "caseC", emplacement: 8, joueurs: [1, 4], duree: 60, categories: ["Déduction", "Stratégie", "Solo"] },
@@ -649,20 +652,17 @@
     { nom: "La bonne paye", case: "caseB", emplacement: 5, joueurs: [2, 6], duree: 120, categories: ["Plateau", "+6 joueurs"] },
     { nom: "Carcassonne", case: "caseC", emplacement: 10, joueurs: [2, 5], duree: 45, categories: ["Pose de tuiles", "Jeu à 2"] },
     { nom: "Monopoly deal", case: "caseB", emplacement: 1, joueurs: [2, 5], duree: 15, categories: ["Ambiance", "Fourberie"] },
-    { nom: "Opération zébre", case: "caseC", emplacement: 10, joueurs: [2, 12], duree: 45, categories: ["Ambiance", "Quiz"] }
+    { nom: "Opération zébre", case: "caseC", emplacement: 10, joueurs: [2, 12], duree: 45, categories: ["Ambiance", "Quiz"] },
+    { nom: "Mito", case: "caseC", emplacement: 6, joueurs: [3, 5], duree: 20, categories: ["Ambiance", "Cartes", "Fourberie"] }
+
   ];
 
   let RECOMMENDATIONS = [
-    { nom: "Guillaume", initiales: "G", role: "Casquette man", jeux: ["Jeu de cochons", "Mille Sabords ", "Russian Roulette", "7 Wonders Duel", "Hanabi"] },
-    { nom: "Penelope", initiales: "P", role: "Madame expression française", jeux: ["Codenames", "Time's Up ! Party – Version Jaune", "Avalon", "Just One", "Loup-Garou Pour Une Nuit"] },
-    { nom: "Niko", initiales: "N", role: "Adore skyjo (c'est faux)", jeux: ["Cascadia", "Akropolis", "Secret identity", "Toy battle", "Nekojima"] },
-    { nom: "Astrid", initiales: "A", role: "Ne sait pas faire de wheeling", jeux: ["Celestia", "When I Dream", "Pigeon pigeon", "Magic Maze", "Twin It !"] },
-    { nom: "Morgane", initiales: "M", role: "BTS FAN", jeux: ["Codenames", "Skyjo", "Unlock ! – Epic Adventures", "Opération zébre", "Mr Troove"] },
-    { nom: "Chloé", initiales: "C", role: "Se déplace à dos de kangourou", jeux: ["Pina coladice", "Unmatched", "Échecs", "Jaipur", "Carcassonne"] },
-    { nom: "Alix", initiales: "A", role: "La queen des blagues", jeux: ["Time's Up ! Party – Version Jaune", "Loup-Garou Pour Une Nuit", "Avalon", "Celestia", "Just One"] },
-    { nom: "Romane", initiales: "R", role: "Adore messi", jeux: ["Mysterium", "Concept", "Back Stories", "MicroMacro Crime City – Full House", "Kronologic"] },
-    { nom: "Jade", initiales: "J", role: "A 2 soeurs et non c'est pas Emeraude et Saphire", jeux: ["Sky team", "The Crew", "Hanabi", "Jaipur", "Skull"] },
-    { nom: "Serena", initiales: "S", role: "Pour elle Noël c'est tous les jours", jeux: ["Catan marin", "Team 3", "Codenames", "Mysterium", "Carcassonne"] }
+    { nom: "Guillaume", initiales: "G", role: "Casquette man", jeux: ["Jeu de cochons", "Mille Sabords", "Russian Roulette", "Hanabi", "Mito"] },
+    { nom: "Niko", initiales: "N", role: "Adore skyjo (c'est faux)", jeux: ["Cascadia", "Akropolis", "Secret Identity", "Toy battle", "Nekojima"] },
+    { nom: "Astrid", initiales: "A", role: "Ne sait pas faire de wheeling", jeux: ["Munchkin", "Nekojima", "Camarades", "Dracula vs Van helsing", "Crack list"] },
+    { nom: "Morgane", initiales: "M", role: "BTS FAN", jeux: ["La bonne paye", "Skyjo", "Unlock ! – Epic Adventures", "Opération zébre", "Mr Troove"] },
+    { nom: "Chloé", initiales: "C", role: "Se déplace à dos de kangourou", jeux: ["Pina coladice", "Monopoly deal", "Codenames", "So Clover", "Concept"] },
   ];
 
   function chercherJeu(nomJeu) {

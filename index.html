@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="description" content="Trouve un jeu de société au Temple : recherche par nom ou catégorie, emplacement en photo, recommandations de l'équipe.">
+<meta name="theme-color" content="#221B15">
+<title>La ludothèque du Temple</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<button id="themeToggle" class="theme-toggle" aria-label="Basculer entre mode jour et mode nuit" onclick="basculerTheme()">☀️</button>
+
+<div id="welcomeScreen" class="welcome-screen">
+  <div class="welcome-screen__content">
+    <div class="welcome-screen__brand">
+      <svg class="brand__die" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="10" fill="#FF5500" stroke="#FF5500" stroke-width="2"/>
+        <circle cx="16" cy="16" r="3.5" fill="#FFFFFF"/>
+        <circle cx="32" cy="32" r="3.5" fill="#FFFFFF"/>
+        <circle cx="24" cy="24" r="3.5" fill="#FFFFFF"/>
+      </svg>
+      <h1>La ludothèque du Temple</h1>
+    </div>
+    <p class="welcome-screen__subtitle">Trouve ton jeu, joue avec, puis range-le dans sa case.</p>
+
+    <div class="welcome-screen__panel">
+      <span class="how-it-works__icon" aria-hidden="true">🎲</span>
+      <div class="how-it-works__content">
+        <h2 class="how-it-works__title">Comment trouver un jeu ?</h2>
+        <ol class="how-it-works__steps">
+          <li><span class="how-it-works__step-icon" aria-hidden="true">🔎</span> Tape un nom ou choisis une ou plusieurs catégories.</li>
+          <li><span class="how-it-works__step-icon" aria-hidden="true">🖱️</span> Clique sur un jeu pour repérer sa case et son emplacement en photo.</li>
+          <li><span class="how-it-works__step-icon how-it-works__step-icon--marker" aria-hidden="true"><span class="marker-demo marker-demo--spot"></span></span> Le marqueur orange clignotant indique où récupérer le jeu, et où le ranger après !</li>
+          <li><span class="how-it-works__step-icon how-it-works__step-icon--marker" aria-hidden="true"><span class="marker-demo marker-demo--heart"><svg class="marker-demo__heart-icon" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10.2-9.3C.2 8.9 1.4 5.2 4.9 4.3c2-.5 4 .3 5.1 2 .3.4.7.9 1 1.3.3-.4.7-.9 1-1.3 1.1-1.7 3.1-2.5 5.1-2 3.5.9 4.7 4.6 3.1 7.4C19.5 16.4 12 21 12 21z"/></svg></span></span> Le cœur signale un coup de cœur de l'équipe à cet emplacement.</li>
+          <li><span class="how-it-works__step-icon how-it-works__step-icon--dots" aria-hidden="true"><span class="difficulty__dot is-filled"></span><span class="difficulty__dot is-filled"></span><span class="difficulty__dot is-filled"></span><span class="difficulty__dot is-filled"></span></span> Les points à côté d'un jeu indiquent la difficulté de ses règles, de 1 (très simple) à 4 (complexe).</li>
+        </ol>
+      </div>
+    </div>
+
+    <button id="startBtn" class="welcome-screen__cta" type="button">C'est parti !</button>
+  </div>
+</div>
+
+<div class="app">
+  <header class="app__header">
+    <a id="brandLink" class="brand" href="#" title="Retour à l'accueil">
+      <svg class="brand__die" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="10" fill="#FF5500" stroke="#FF5500" stroke-width="2"/>
+        <circle cx="16" cy="16" r="3.5" fill="#FFFFFF"/>
+        <circle cx="32" cy="32" r="3.5" fill="#FFFFFF"/>
+        <circle cx="24" cy="24" r="3.5" fill="#FFFFFF"/>
+      </svg>
+      <h1>La ludothèque du Temple</h1>
+    </a>
+    <p class="app__subtitle">Trouve ton jeu, joue avec, puis range-le dans sa case.</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Sections de la ludothèque">
+    <button class="tab-btn active" role="tab" id="tabbtn-search" aria-selected="true" aria-controls="search-tab" data-tab="search">🔍 Recherche</button>
+    <button class="tab-btn tab-btn--reco" role="tab" id="tabbtn-recommendations" aria-selected="false" aria-controls="recommendations-tab" data-tab="recommendations">
+      <span class="tab-btn__line">Coup de <svg class="tab-btn__heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-10.2-9.3C.2 8.9 1.4 5.2 4.9 4.3c2-.5 4 .3 5.1 2 .3.4.7.9 1 1.3.3-.4.7-.9 1-1.3 1.1-1.7 3.1-2.5 5.1-2 3.5.9 4.7 4.6 3.1 7.4C19.5 16.4 12 21 12 21z"/></svg></span>
+      <span class="tab-btn__line">de l'équipe</span>
+    </button>
+    <button class="tab-btn" role="tab" id="tabbtn-vente" aria-selected="false" aria-controls="vente-tab" data-tab="vente">🛒 Jeu à vendre</button>
+    <button class="tab-btn" role="tab" id="tabbtn-reseaux" aria-selected="false" aria-controls="reseaux-tab" data-tab="reseaux">🔗 Nos réseaux</button>
+  </div>
+
+  <div id="search-tab" class="tab-content active" role="tabpanel" aria-labelledby="tabbtn-search">
+    <div class="search-sticky-wrap">
+      <div class="search">
+        <input id="searchInput" type="text" placeholder="Tape le nom d'un jeu...">
+        <button id="clearBtn" class="search__clear" hidden>✕</button>
+      </div>
+      <button id="randomGameBtn" type="button" class="random-btn">🎲 Je ne sais pas quoi choisir ?</button>
+    </div>
+
+    <!-- 15 Catégories de recherche multi-sélectionnables -->
+    <div class="search-tags">
+      <button class="search-tag search-tag--new" data-tag="Nouveauté">✨ Nouveauté</button>
+      <button class="search-tag" data-tag="Ambiance">😂 Ambiance</button>
+      <button class="search-tag" data-tag="Cartes">🃏 Cartes</button>
+      <button class="search-tag" data-tag="Plateau">♟️ Plateau</button>
+      <button class="search-tag" data-tag="Dés">🎲 Dés</button>
+      <button class="search-tag" data-tag="Énigme">🔍 Énigme</button>
+      <button class="search-tag" data-tag="Identité cachée">🎭 Identité cachée</button>
+      <button class="search-tag" data-tag="Pose de tuiles">🧩 Pose de tuiles</button>
+      <button class="search-tag" data-tag="Adresse">🎯 Adresse</button>
+      <button class="search-tag" data-tag="Dessin">✏️ Dessin</button>
+      <button class="search-tag" data-tag="Stratégie">🧠 Stratégie</button>
+      <button class="search-tag" data-tag="Coopératif">🤝 Coopératif</button>
+      <button class="search-tag" data-tag="Rapidité">⚡ Rapidité</button>
+      <button class="search-tag" data-tag="Enfants">👶 Enfants</button>
+      <button class="search-tag" data-tag="Deck-building">🎴 Deck-building</button>
+      <button class="search-tag" data-tag="Quiz">❓ Quiz</button>
+      <button class="search-tag" data-tag="Jeu à 2">👥 Jeu à 2</button>
+      <button class="search-tag" data-tag="Jeu à 4">👨‍👩‍👧‍👦 Jeu à 4</button>
+      <button class="search-tag" data-tag="+6 joueurs">🎉 +6 joueurs</button>
+      <button class="search-tag" data-tag="Déduction">🕵 Déduction </button>
+      <button class="search-tag" data-tag="Jeu de mot">🔤 Jeu de mot</button>
+      <button class="search-tag" data-tag="Fourberie">😈 Fourberie</button>
+      <button class="search-tag" data-tag="Solo">👤 Solo</button>
+
+
+    </div>
+
+    <div class="filters filters--search">
+      <p class="filters__title">Filtrer par :</p>
+
+      <div class="filters__group">
+        <label class="filters__label" for="joueursMin">👥 Nombre de joueurs</label>
+        <input id="joueursMin" class="filters__input" type="number" min="1" max="30" placeholder="Min">
+        <span class="filters__sep">à</span>
+        <input id="joueursMax" class="filters__input" type="number" min="1" max="30" placeholder="Max">
+      </div>
+
+      <div class="filters__group">
+        <label class="filters__label" for="dureeMax">⏱ Durée max (minutes)</label>
+        <input id="dureeMax" class="filters__input filters__input--duree" type="number" min="1" max="300" placeholder="45">
+        <span class="filters__sep">min</span>
+        <button class="filters__reset" data-filter-clear>↺ Réinitialiser</button>
+      </div>
+    </div>
+
+    <div id="results" class="results"></div>
+  </div>
+
+  <div id="recommendations-tab" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-recommendations">
+    <p class="tab-intro">Découvre les coups de cœur recommandés par chaque membre de l'équipe.</p>
+
+    <div class="filters">
+      <p class="filters__title">Filtrer les recommandations par catégorie :</p>
+      <div class="filters__group">
+        <button class="filter-btn" data-filter-rec="Ambiance">😂 Ambiance</button>
+        <button class="filter-btn" data-filter-rec="Jeu à 2">👥 Jeu à 2</button>
+        <button class="filter-btn" data-filter-rec="Jeu à 4">👨‍👩‍👧‍👦 Jeu à 4</button>
+        <button class="filter-btn" data-filter-rec="+6 joueurs">🎉 joueurs</button>
+        <button class="filter-btn" data-filter-rec="Cartes">🃏 Cartes</button>
+        <button class="filters__reset" data-filter-rec-clear>↺ Réinitialiser</button>
+      </div>
+    </div>
+
+    <div id="recommendations-list" class="results"></div>
+  </div>
+
+  <div id="vente-tab" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-vente">
+    <p class="tab-intro">Des jeux de notre collection sont à vendre : retrouve-les ici avec leur prix.<br>⚠️ Ce sont des jeux d'occasion de la ludothèque (déjà utilisés au bar), pas des jeux neufs.</p>
+    <div id="vente-list" class="results"></div>
+  </div>
+
+  <div id="reseaux-tab" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-reseaux">
+    <div class="results" style="padding-top:20px;">
+      <article class="card soirees-card">
+        <div class="soirees-card__banner">
+          <span class="soirees-card__icon" aria-hidden="true">🔗</span>
+        </div>
+        <div class="card__body soirees-card__body">
+          <h2 class="soirees-card__title">Nos réseaux</h2>
+          <p class="soirees-card__text">Retrouve-nous et suis nos actualités sur nos réseaux sociaux.</p>
+          <div class="soirees-card__cta-group">
+            <a class="soirees-card__cta" href="https://www.instagram.com/letemple_17/" target="_blank" rel="noopener">Voir sur Instagram</a>
+            <a class="soirees-card__cta soirees-card__cta--secondary" href="https://www.facebook.com/letemple17/" target="_blank" rel="noopener">Voir sur Facebook</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <footer class="app__footer">
+    <p class="app__footer-text">🔒 Aucune donnée n'est enregistrée : ce site ne collecte, ne stocke ni ne transmet aucune information personnelle, ni sur un serveur, ni dans votre navigateur.</p>
+  </footer>
+</div>
+
+<div id="lightbox" class="lightbox" hidden>
+  <div class="lightbox__content">
+    <div id="lightboxStage" class="lightbox__stage">
+      <img id="lightboxImg" class="lightbox__img" src="" alt="Agrandissement de la photo">
+      <div id="lightboxMarkers" class="lightbox__markers"></div>
+    </div>
+    <button id="lightboxClose" class="lightbox__close">✕</button>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1493 @@
+  :root{
+    --orange:#FF5500;
+    --orange-dark:#B84708;
+    --orange-deep:#9C3C06;
+    --orange-soft:#FFE7D2;
+    --teal:#1F5C56;
+    --teal-soft:#DCEEEC;
+    --stone-soft:#E7E2D9;
+    --stone-dark:#5C5347;
+    --cream:#FFF8F1;
+    --paper:#FFFFFF;
+    --ink:#2A211A;
+    --ink-soft:#8A7A6A;
+    --ink-soft-contrast:#6B5D4D;
+    --border:#EAD9C7;
+    --radius:16px;
+    --chip-radius:10px;
+    --shadow:0 2px 12px rgba(42,33,26,0.10);
+
+    /* Toujours sombre avec texte blanc, quel que soit le thème (les tooltips ne doivent pas suivre --ink) */
+    --tooltip-bg:#2A211A;
+    --tooltip-text:#FFFFFF;
+
+    /* Rond du marqueur cœur sur les photos : toujours la même teinte, clair ou sombre */
+    --heart-marker-bg:#FCE4E9;
+
+    --chip-accent-bg:var(--orange-soft);
+    --chip-accent-text:var(--orange-deep);
+    --heart-bg:#FCE4E9;
+    --heart-bg-hover:#F8C9D4;
+    --heart-text:#fd0050de;
+    --teal-chip-bg:var(--teal-soft);
+    --teal-chip-text:var(--teal);
+
+    /* Orange d'accent dédié : état actif des tags de recherche */
+    --tag-active-bg:#FF6B00;
+    --tag-active-text:#FFFFFF;
+
+    /* Orange d'accent dédié : même teinte que le dé de la page d'accueil, réutilisé pour le badge Nouveauté */
+    --orange-accent-primary:var(--orange);
+
+    /* Couleur unique du cœur (chip profil/reco + marqueur sur la photo de case) */
+    --heart-profile-reco-color:#fd0050de;
+
+    /* Rouge dédié au bouton "Réinitialiser" : le distingue clairement de l'orange
+       utilisé par la recherche (tags actifs) et le choix d'équipe (filter-btn actif) */
+    --danger:#C7402C;
+    --danger-soft:#FBE3DF;
+
+    /* Surface des chips/pastilles non sélectionnées (tags de recherche, filtres
+       de recommandations) : identique à --paper en mode clair, mais redéfinie
+       plus haut/contrastée en mode sombre pour bien se détacher du fond. */
+    --chip-surface-bg:var(--paper);
+    --chip-surface-border:var(--border);
+    --chip-surface-text:var(--ink-soft-contrast);
+  }
+
+  [data-theme="dark"]{
+    --cream:#221B15;
+    --paper:#2C241D;
+    --ink:#F3E9DD;
+    --ink-soft:#A99884;
+    --ink-soft-contrast:#C7B8A4;
+    --stone-dark:#CBBBA6;
+    --border:#4A3D31;
+    --shadow:0 2px 14px rgba(0,0,0,0.45);
+
+    --chip-accent-bg:#4A2A12;
+    --chip-accent-text:#FFB37A;
+    --heart-bg:#63283A;
+    --heart-bg-hover:#79324A;
+    --heart-text:#fd0050de;
+    --teal-chip-bg:#163430;
+    --teal-chip-text:#6FD6C4;
+
+    --tag-active-bg:#FF6B00;
+    --tag-active-text:#FFFFFF;
+    --orange-accent-primary:var(--orange);
+    /* Rose plus vif et opaque qu'en mode clair : meilleur contraste sur les
+       fonds sombres (chip cœur, marqueur cœur sur photo). */
+    --heart-profile-reco-color:#FF4D8D;
+
+    --danger:#E2604A;
+    --danger-soft:#4A2620;
+
+    /* En mode sombre, --paper est déjà assez proche de --cream (fond de page) :
+       on donne aux chips non sélectionnées une surface nettement plus claire
+       et un liseré plus visible, pour qu'elles ressortent clairement du fond. */
+    --chip-surface-bg:#39301F;
+    --chip-surface-border:#5C4B37;
+    --chip-surface-text:#E4D5BF;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+
+  .theme-toggle{
+    position:fixed;
+    top:14px;
+    right:14px;
+    z-index:20;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--paper);
+    box-shadow:var(--shadow);
+    font-size:1.15rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:background .2s ease, transform .2s ease;
+  }
+
+  .theme-toggle:hover{
+    transform:scale(1.06);
+  }
+  html{-webkit-text-size-adjust:100%; font-size:106.25%;} /* base ~17px : lisibilité renforcée pour un usage debout au bar */
+  body{
+    background:
+      radial-gradient(circle at 15% 20%, rgba(184,71,8,0.045) 0%, transparent 38%),
+      radial-gradient(circle at 85% 12%, rgba(31,92,52,0.04) 0%, transparent 42%),
+      radial-gradient(circle at 65% 85%, rgba(92,83,71,0.05) 0%, transparent 40%),
+      var(--cream);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    width:100%;
+    overflow-x:hidden;
+  }
+
+  .app{
+    max-width:640px;
+    margin:0 auto;
+    padding-bottom:48px;
+  }
+
+  .app__header{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:var(--cream);
+    padding:24px 20px 18px;
+    border-bottom:1px solid var(--border);
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    text-decoration:none;
+  }
+
+  .brand__die{
+    width:34px;
+    height:34px;
+    flex-shrink:0;
+  }
+
+  .brand h1{
+    margin:0;
+    font-size:1.5rem;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+
+  .app__subtitle{
+    margin:6px 0 16px 44px;
+    color:var(--ink-soft);
+    font-size:0.92rem;
+  }
+
+  .app__footer{
+    margin:24px 20px 20px;
+    padding-top:16px;
+    border-top:1px solid var(--border);
+    text-align:center;
+  }
+
+  .app__footer-text{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:0.85rem;
+    line-height:1.5;
+  }
+
+  .tabs{
+    display:flex;
+    align-items:stretch;
+    gap:6px;
+    margin:16px 20px 0;
+    border-bottom:1px solid var(--border);
+    padding-bottom:0;
+  }
+
+  .tab-btn{
+    flex:1 1 0;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    margin:0;
+    padding:12px 8px;
+    border:none;
+    background:transparent;
+    color:var(--ink-soft);
+    font-size:0.86rem;
+    font-weight:600;
+    text-align:center;
+    line-height:1.25;
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+    transition:color .2s ease, border-color .2s ease;
+    white-space:normal;
+  }
+
+  .tab-btn__heart{
+    width:20px;
+    height:20px;
+    fill:var(--heart-profile-reco-color);
+    flex-shrink:0;
+  }
+
+  /* Onglet "Coup de [cœur] / de l'équipe" sur deux lignes, pour que l'icône
+     reste bien lisible au lieu d'être compressée sur une seule ligne avec le texte. */
+  .tab-btn--reco{
+    flex-direction:column;
+    gap:2px;
+  }
+
+  .tab-btn--reco .tab-btn__line{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    line-height:1.15;
+  }
+
+  .tab-btn:hover{
+    color:var(--ink);
+  }
+
+  .tab-btn.active{
+    color:var(--chip-accent-text);
+    border-bottom-color:var(--orange);
+  }
+
+  /* Écran d'accueil "Comment trouver un jeu ?" : plein écran, affiché avant
+     le reste de l'application à chaque chargement de page. */
+  .welcome-screen{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:var(--cream);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 20px;
+    overflow-y:auto;
+  }
+
+  .welcome-screen[hidden]{
+    display:none;
+  }
+
+  .welcome-screen__content{
+    max-width:460px;
+    width:100%;
+    text-align:center;
+  }
+
+  .welcome-screen__brand{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:8px;
+  }
+
+  .welcome-screen__brand .brand__die{
+    width:40px;
+    height:40px;
+    flex-shrink:0;
+  }
+
+  .welcome-screen__brand h1{
+    margin:0;
+    font-size:1.55rem;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+
+  .welcome-screen__subtitle{
+    margin:0 0 28px;
+    color:var(--ink-soft);
+    font-size:0.95rem;
+  }
+
+  .welcome-screen__panel{
+    position:relative;
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    text-align:left;
+    background:var(--orange-soft);
+    border:1px solid var(--orange);
+    border-left:4px solid var(--orange);
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:24px;
+  }
+
+  [data-theme="dark"] .welcome-screen__panel{
+    background:#3A2412;
+  }
+
+  .welcome-screen__cta{
+    display:inline-block;
+    padding:14px 36px;
+    border:none;
+    border-radius:999px;
+    background:var(--orange);
+    color:#FFFFFF;
+    font-size:1.05rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .15s ease, background .15s ease;
+  }
+
+  .welcome-screen__cta:hover{
+    background:var(--orange-dark);
+    transform:translateY(-2px);
+  }
+
+  .how-it-works__icon{
+    font-size:1.7rem;
+    line-height:1;
+    flex-shrink:0;
+  }
+
+  .how-it-works__content{
+    min-width:0;
+    flex:1;
+  }
+
+  .how-it-works__title{
+    margin:0 0 8px;
+    font-size:0.95rem;
+    font-weight:800;
+    color:var(--ink);
+  }
+
+  .how-it-works__steps{
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .how-it-works__steps li{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    font-size:0.9rem;
+    font-weight:500;
+    color:var(--ink-soft-contrast);
+    line-height:1.4;
+  }
+
+  .how-it-works__step-icon{
+    flex-shrink:0;
+  }
+
+  /* Variante de l'icône d'étape reprenant les points de difficulté déjà utilisés
+     sur les jeux (au lieu d'un emoji), pour une cohérence visuelle directe.
+     align-self:center la recentre verticalement face au texte, indépendamment
+     du align-items:flex-start du parent (utile pour du texte multi-lignes). */
+  .how-it-works__step-icon--dots{
+    display:inline-flex;
+    align-items:center;
+    align-self:center;
+    gap:4px;
+  }
+
+  .how-it-works__step-icon--dots .difficulty__dot{
+    width:8.82px;
+    height:8.82px;
+  }
+
+  .search{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--paper);
+    border:2px solid var(--border);
+    border-radius:999px;
+    padding:10px 14px;
+    transition:border-color .15s ease;
+    margin:0;
+  }
+
+  .search:focus-within{
+    border-color:var(--orange);
+  }
+
+  /* Barre de recherche "collante" : reste visible juste sous l'en-tête pendant
+     le défilement, pratique pour re-filtrer sans remonter en haut de page.
+     --sticky-search-top est calculée en JS à partir de la hauteur réelle de
+     l'en-tête (ajusterStickySearch), pour rester correcte à toutes les tailles d'écran. */
+  .search-sticky-wrap{
+    position:sticky;
+    top:var(--sticky-search-top, 0px);
+    z-index:8;
+    background:var(--cream);
+    padding:12px 20px 10px;
+  }
+
+  .random-btn{
+    display:block;
+    width:100%;
+    margin-top:10px;
+    padding:10px 14px;
+    border:2px solid var(--orange);
+    border-radius:999px;
+    background:var(--orange);
+    color:#FFFFFF;
+    font-size:0.95rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .15s ease, background .15s ease, color .15s ease;
+  }
+
+  .random-btn:hover{
+    background:#FFFFFF;
+    color:var(--orange-dark);
+    transform:translateY(-1px);
+  }
+
+  .random-btn:active{
+    transform:translateY(0);
+  }
+
+  /* Mise en avant temporaire de la case révélée par "Je ne sais pas quoi choisir" */
+  @keyframes surprise-pulse{
+    0%   { box-shadow:0 0 0 0 var(--orange); }
+    70%  { box-shadow:0 0 0 12px transparent; }
+    100% { box-shadow:0 0 0 0 transparent; }
+  }
+
+  .card.is-surprise{
+    animation: surprise-pulse 1.2s ease-out 2;
+    border-color:var(--orange);
+  }
+
+  .search input{
+    border:none;
+    outline:none;
+    background:transparent;
+    flex:1;
+    min-width:0;
+    font-size:1rem;
+    color:var(--ink);
+    font-family:inherit;
+  }
+
+  .search input::placeholder{
+    color:var(--ink-soft);
+  }
+
+  .search__clear{
+    border:none;
+    background:var(--border);
+    color:var(--ink);
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    font-size:0.8rem;
+    line-height:1;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+
+  .search__clear:hover{
+    background:var(--orange-soft);
+  }
+
+  .search-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 20px 0;
+  }
+
+  .search-tag {
+    background: var(--chip-surface-bg);
+    border: 1px solid var(--chip-surface-border);
+    border-radius: var(--chip-radius);
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--chip-surface-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+
+  .search-tag:hover {
+    background: var(--chip-accent-bg);
+    color: var(--chip-accent-text);
+    border-color: var(--orange);
+  }
+
+  .search-tag.active,
+  .search-tag:active,
+  .search-tag:checked {
+    background: var(--tag-active-bg);
+    color: var(--tag-active-text);
+    border-color: var(--tag-active-bg);
+  }
+
+  /* La pastille Nouveauté se distingue légèrement des autres catégories.
+     Utilise les variables --chip-accent-*, déjà adaptées par thème, plutôt
+     que --orange-soft/--orange-deep fixes, pour rester lisible en mode sombre. */
+  .search-tag--new{
+    background: var(--chip-accent-bg);
+    border-color: var(--orange);
+    color: var(--chip-accent-text);
+    font-weight: 700;
+  }
+
+  .search-tag--new:hover{
+    background: var(--orange);
+    color: #FFFFFF;
+    border-color: var(--orange);
+  }
+
+  .search-tag--new.active{
+    background: var(--orange-accent-primary);
+    color: #FFFFFF;
+    border-color: var(--orange-accent-primary);
+  }
+
+  .results{
+    padding:20px 20px 0;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .state{
+    text-align:center;
+    padding:48px 20px;
+    color:var(--ink-soft);
+  }
+
+  .state__die{
+    width:56px;
+    height:56px;
+    margin:0 auto 16px;
+  }
+
+  .state--none .state__die{
+    animation:wobble 0.6s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .state--none .state__die{ animation:none; }
+  }
+
+  @keyframes wobble{
+    0%{transform:rotate(0deg);}
+    25%{transform:rotate(-8deg);}
+    50%{transform:rotate(7deg);}
+    75%{transform:rotate(-4deg);}
+    100%{transform:rotate(0deg);}
+  }
+
+  .state p{
+    margin:4px 0;
+    font-size:0.95rem;
+  }
+
+  .state strong{
+    color:var(--ink);
+  }
+
+  .count{
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    padding:0 2px;
+  }
+
+  .hint{
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    padding:0 2px;
+    margin-top:2px;
+    opacity:0.85;
+  }
+
+  /* Panneaux unifiés */
+  .card, .recommendation-panel {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    animation: rise .25s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover, .recommendation-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(42,33,26,0.15);
+  }
+
+  @keyframes rise{
+    from{opacity:0; transform:translateY(6px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .card, .recommendation-panel {animation:none;}
+  }
+
+  .card__photo-wrap{
+    position:relative;
+    display:block;
+    width:100%;
+    border:none;
+    padding:0;
+    cursor:zoom-in;
+    background:var(--orange-soft);
+    border-radius:var(--radius) var(--radius) 0 0;
+  }
+
+  .card__photo{
+    width:100%;
+    height:auto;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    display:block;
+    border-radius:var(--radius) var(--radius) 0 0;
+  }
+
+  /* Spot marker */
+  .spot-marker {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    margin-top: -12px;
+    border-radius: 50%;
+    background: rgba(255, 85, 0, 0.85);
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    pointer-events: none;
+    z-index: 2;
+    animation: spot-pulse 2s infinite ease-in-out;
+  }
+
+  .spot-marker::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 50%;
+    border: 2px solid var(--orange);
+    animation: spot-ripple 2s infinite ease-out;
+  }
+
+  @keyframes spot-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  @keyframes spot-ripple {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+
+  /* Marqueur cœur : signale un emplacement contenant un coup de cœur d'équipe,
+     toujours visible (contrairement au spot-marker de recherche, ponctuel) */
+  .spot-marker--heart{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--heart-marker-bg);
+    border:none;
+    box-shadow:0 2px 8px rgba(0,0,0,0.35);
+    line-height:1;
+    pointer-events:auto;
+    cursor:pointer;
+    animation: spot-pulse 4s infinite ease-in-out; /* 2 fois plus lent que le marqueur de recherche */
+    animation-delay: var(--pulse-delay, 0s);
+  }
+
+  .spot-marker--heart__icon{
+    width:14px;
+    height:14px;
+    fill:var(--heart-profile-reco-color);
+    display:block;
+    pointer-events:none;
+  }
+
+  .spot-marker--heart::after{
+    border-color:var(--heart-marker-bg);
+    animation: spot-ripple 4s infinite ease-out; /* 2 fois plus lent que le marqueur de recherche */
+    animation-delay: var(--pulse-delay, 0s);
+  }
+
+  /* Au survol/ouverture : on fige le mouvement du marqueur pour garder le tooltip parfaitement lisible */
+  .spot-marker--heart:hover,
+  .spot-marker--heart:focus-visible,
+  .spot-marker--heart.spot-marker--heart--open{
+    animation-play-state: paused;
+  }
+
+  .spot-marker--heart:hover::after,
+  .spot-marker--heart:focus-visible::after,
+  .spot-marker--heart.spot-marker--heart--open::after{
+    animation-play-state: paused;
+  }
+
+  .spot-marker__tooltip{
+    position:absolute;
+    bottom:calc(100% + 10px);
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--tooltip-bg);
+    color:var(--tooltip-text);
+    padding:7px 11px;
+    border-radius:8px;
+    font-size:0.82rem;
+    font-weight:600;
+    line-height:1.5;
+    white-space:normal;
+    max-width:220px;
+    width:max-content;
+    box-shadow:var(--shadow);
+    z-index:20;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+
+  .spot-marker__tooltip::after{
+    content:'';
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%);
+    border:5px solid transparent;
+    border-top-color:var(--tooltip-bg);
+  }
+
+  .spot-marker--heart:hover .spot-marker__tooltip,
+  .spot-marker--heart:focus-visible .spot-marker__tooltip,
+  .spot-marker--heart.spot-marker--heart--open .spot-marker__tooltip{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+
+  .card__body{
+    padding:16px;
+  }
+
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    padding:6px 12px;
+    border-radius:var(--chip-radius);
+    font-size:0.88rem;
+    font-weight:600;
+    cursor: pointer;
+    user-select: none;
+    overflow-wrap:anywhere;
+    line-height:1.3;
+  }
+
+  .game-item__row{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .game-item__meta{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:6px;
+    margin-top:2px;
+  }
+
+  /* Nom du jeu : texte brut en gras, sans habillage de badge/chip (spec §4B) */
+  .game-item__name{
+    display:inline-block;
+    font-weight:700;
+    color:var(--ink);
+    cursor:pointer;
+    transition:color .15s ease;
+  }
+
+  .game-item__name:hover{
+    color:var(--orange);
+  }
+
+  /* Infos rapides (joueurs / durée) : texte simple, sans pastille */
+  .game-item__meta-text{
+    font-size:0.88rem;
+    font-weight:600;
+    color:var(--stone-dark);
+  }
+
+  /* Cœur : signale qu'un jeu est aimé (par d'autres profils), à côté de joueurs/durée */
+  .chip--heart{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:3px;
+    padding:4px 9px;
+    border-radius:var(--chip-radius);
+    font-size:0.82rem;
+    font-weight:700;
+    background:var(--heart-marker-bg);
+    color:var(--heart-profile-reco-color);
+    white-space:nowrap;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+
+  .chip--heart:hover,
+  .chip--heart:focus-visible,
+  .chip--heart.chip--heart--open{
+    background:var(--heart-bg-hover);
+    outline:none;
+  }
+
+  .chip--heart__tooltip{
+    position:absolute;
+    bottom:calc(100% + 7px);
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--tooltip-bg);
+    color:var(--tooltip-text);
+    padding:7px 11px;
+    border-radius:8px;
+    font-size:0.82rem;
+    font-weight:600;
+    white-space:normal;
+    max-width:220px;
+    width:max-content;
+    box-shadow:var(--shadow);
+    z-index:5;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .15s ease;
+  }
+
+  .chip--heart__tooltip::after{
+    content:'';
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%);
+    border:5px solid transparent;
+    border-top-color:var(--tooltip-bg);
+  }
+
+  .chip--heart:hover .chip--heart__tooltip,
+  .chip--heart:focus-visible .chip--heart__tooltip,
+  .chip--heart.chip--heart--open .chip--heart__tooltip{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+
+  /* Catégories / thème du jeu : texte simple séparé par des points, discret sous la ligne de jeu (recherche) */
+  .game-item__tags{
+    margin:2px 0 0;
+    font-size:0.88rem;
+    font-weight:500;
+    color:var(--ink-soft-contrast);
+    line-height:1.4;
+  }
+
+  .game-item__tags-sep{
+    color:var(--border);
+  }
+
+  /* Catégories en pastille teal : uniquement dans l'onglet recommandations */
+  .game-item__tags-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:2px;
+  }
+
+  .chip--category-reco{
+    display:inline-flex;
+    align-items:center;
+    padding:4px 10px;
+    border-radius:var(--chip-radius);
+    font-size:0.82rem;
+    font-weight:600;
+    background:var(--teal-chip-bg);
+    color:var(--teal-chip-text);
+  }
+
+  /* Badge Nouveauté : aplat orange (même teinte que le dé de la page d'accueil) */
+  .chip--new{
+    position: relative;
+    display: inline-flex;
+    align-items:center;
+    top: -1px;
+    font-size: 0.78rem;
+    background: var(--orange-accent-primary);
+    color: #FFFFFF;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform:uppercase;
+    animation: pulse-new 15s ease-in-out infinite;
+  }
+
+  @keyframes pulse-new {
+    0%, 92%, 100% { transform: scale(1); }
+    95% { transform: scale(1.18); }
+    97% { transform: scale(1); }
+  }
+
+  /* Badge "À vendre" : couleur verte dédiée pour bien le distinguer,
+     affiché à la fois dans l'onglet Jeu à vendre et sur les jeux concernés
+     dans la recherche générale et les recommandations de l'équipe. */
+  .chip--sale{
+    background:#189340;
+    text-transform:none;
+    letter-spacing:normal;
+    animation:none;
+  }
+
+  /* Prix affiché sur une ligne "jeu à vendre" */
+  .sale-item__price{
+    font-size:0.88rem;
+    font-weight:700;
+    color:var(--orange-dark);
+  }
+
+  /* Badge facultatif choisi à la main par l'équipe (voir jeu.badge dans JEUX) :
+     même forme que le badge Nouveauté, couleur différente, pas de majuscules forcées
+     (les emoji + texte se lisent normalement) et pas d'animation de pulsation (réservée à Nouveauté). */
+  .chip--badge-pepite{
+    background:#3373B0;
+    text-transform:none;
+    letter-spacing:normal;
+    animation:none;
+  }
+
+  .card__game-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: default;
+  }
+
+  .card__game-item:last-child {
+    border-bottom: none;
+  }
+
+  .game-item__cover-wrap{
+    position:relative;
+    flex-shrink:0;
+    width:50px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .game-item__cover{
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+    border:none;
+    border-radius:8px;
+    object-fit:contain;
+    display:block;
+    background:transparent;
+    cursor:zoom-in;
+  }
+
+  /* Neutralise un fond blanc non retirable à la source (ex : TTMC musique) */
+  .game-item__cover--sans-fond{
+    mix-blend-mode:multiply;
+  }
+
+  [data-theme="dark"] .game-item__cover--sans-fond{
+    mix-blend-mode:normal;
+    background:#FFFFFF;
+    padding:2px;
+    box-sizing:border-box;
+  }
+
+  .game-item__info{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    min-width:0;
+    flex:1;
+  }
+
+  /* Échelle de difficulté des règles (1 à 4), alignée à droite de la ligne du jeu.
+     Taille alignée sur celle du panneau d'accueil (8.82px, soit +20% par rapport
+     à l'ancienne taille de 7.35px) pour une cohérence visuelle entre l'accueil,
+     la recherche, les recommandations de l'équipe et les jeux à vendre. */
+  .game-item__difficulty{
+    display:flex;
+    flex-shrink:0;
+    align-items:center;
+    gap:4px;
+    align-self:center;
+    margin-left:auto;
+    padding-left:8px;
+  }
+
+  .difficulty__dot{
+    width:8.82px;
+    height:8.82px;
+    background:var(--border);
+  }
+
+  /* Dégradé vert (facile) -> rouge (complexe) appliqué selon la position du
+     point dans la ligne (1er = vert, 4e = rouge), pas selon le niveau du jeu :
+     un jeu de niveau 3 affiche donc vert / vert clair / jaune remplis. */
+  .difficulty__dot.is-filled:nth-child(1){ background:#2FA84F; }
+  .difficulty__dot.is-filled:nth-child(2){ background:#F0C419; }
+  .difficulty__dot.is-filled:nth-child(3){ background:#F2994A; }
+  .difficulty__dot.is-filled:nth-child(4){ background:#e13e3e; }
+
+  @media (max-width:480px){
+    .game-item__difficulty{ gap:3px; padding-left:4px; }
+    .difficulty__dot{ width:7.56px; height:7.56px; }
+  }
+
+  .card--attente{
+    opacity:0.75;
+  }
+
+  .card__attente-label{
+    font-size:0.9rem;
+    color:var(--ink-soft);
+    margin:0 0 12px 0;
+  }
+
+  .card__hint{
+    margin:12px 0 0 0;
+    font-size:0.88rem;
+    color:var(--ink-soft);
+  }
+
+  .filters {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin: 0 20px 14px;
+    box-shadow: var(--shadow);
+  }
+
+  .filters--search{
+    margin-top: 12px;
+  }
+
+  .filters__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 10px 0;
+  }
+
+  .filters__group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .filters__group:last-child {
+    margin-bottom: 0;
+  }
+
+  .filters__label{
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    flex: 1 1 100%;
+  }
+
+  .filters__input{
+    width: 72px;
+    min-width: 0;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--chip-radius);
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--paper);
+    text-align:center;
+  }
+
+  .filters__input--duree{
+    width: 60px;
+  }
+
+  .filters__input:focus{
+    outline: none;
+    border-color: var(--orange);
+  }
+
+  .filters__sep{
+    color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+
+  .filters__reset{
+    margin-left: auto;
+    padding: 7px 14px;
+    border: 1.5px solid var(--danger);
+    background: transparent;
+    color: var(--danger);
+    border-radius: var(--chip-radius);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .filters__reset:hover{
+    background: var(--danger);
+    color: #FFFFFF;
+    border-color: var(--danger);
+  }
+
+  .filters__reset:active{
+    background: var(--danger);
+    color: #FFFFFF;
+  }
+
+  .tab-intro{
+    padding: 20px 20px 0;
+    margin: 0 0 12px;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .filter-btn {
+    padding: 5px 11px;
+    border: 1px solid var(--chip-surface-border);
+    background: var(--chip-surface-bg);
+    color: var(--chip-surface-text);
+    border-radius: var(--chip-radius);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+
+  .filter-btn.active {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: #FFFFFF;
+  }
+
+  /* En-tête de profil (équipe) — bandeau flashy en aplat (pas de dégradé), propre à chaque profil */
+  .profile-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:-16px -16px 12px;
+    padding:18px 16px;
+    /* Couleur de repli tant qu'aucune classe .profile-header--{slug} ne la définit ci-dessous */
+    --member-color: var(--ink-soft);
+    /* Teinte dérivée automatiquement d'UNE seule couleur (--member-color) :
+       il suffit de changer --member-color par profil, tout le reste s'ajuste. */
+    --member-color-dark: color-mix(in srgb, var(--member-color) 70%, black 30%);
+    /* Variante claire : utilisée pour l'intérieur du meeple, qui doit se
+       détacher du bandeau (donc plus clair que lui, pas plus foncé). */
+    --member-color-light: color-mix(in srgb, var(--member-color) 55%, white 45%);
+    background-color:var(--member-color);
+    border-radius:var(--radius) var(--radius) 0 0;
+    position:relative;
+  }
+
+  /* ============================================================
+     Couleurs de bannière par profil
+     ------------------------------------------------------------
+     Une seule ligne par personne : change --member-color pour
+     changer toute la bannière (fond, avatar, lueur, teinte foncée
+     du texte de l'avatar) de ce profil. Rien à toucher côté JS ni
+     dans l'interface : c'est uniquement ici, dans ce fichier CSS.
+     Le nom de la classe est le prénom en minuscules sans accents
+     (ex : "Pénélope" -> profile-header--penelope).
+     ============================================================ */
+  .profile-header--guillaume{ --member-color:#1F5C56; } /* teal */
+  .profile-header--penelope{ --member-color:#D45B7A; } /* rose */
+  .profile-header--niko{ --member-color:#3373B0; } /* bleu océan */
+  .profile-header--astrid{ --member-color:#C97A1A; } /* ambre */
+  .profile-header--chloe{ --member-color:#7B4B94; } /* prune */
+  .profile-header--serena{ --member-color:#3E8E5B; } /* vert forêt */
+  .profile-header--morgane{ --member-color:#E0654F; } /* corail */
+  .profile-header--jade{ --member-color:#5B5FC7; } /* indigo */
+  .profile-header--romane{ --member-color:#FF5500; } /* orange (accent de marque) */
+  .profile-header--alix{ --member-color:#556080; } /* ardoise */
+  .profile-header--solenne{ --member-color:#00897B; } /* turquoise */
+
+  .profile-avatar{
+    position:relative;
+    flex-shrink:0;
+    width:76px;
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .profile-avatar__shape{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    overflow:visible;
+  }
+
+  /* Corps du meeple rempli d'une teinte plus claire que le bandeau (--member-color-light) :
+     permet de bien distinguer la silhouette du fond coloré du bandeau, au lieu
+     d'un simple contour transparent qui s'y fondait. */
+  .profile-avatar__shape-fill{
+    fill:var(--member-color-light);
+    stroke:none;
+  }
+
+  /* Contour blanc par-dessus le remplissage : garde l'effet "badge détouré".
+     La lettre du prénom vient s'inscrire dans le corps, à l'intérieur du contour. */
+  .profile-avatar__shape-outline{
+    fill:none;
+    stroke:rgba(255,255,255,0.95);
+    stroke-width:1.75;
+    stroke-linejoin:round;
+    stroke-linecap:round;
+  }
+
+  .profile-avatar__letter{
+    position:relative;
+    z-index:1;
+    margin-top:-3.6px;
+    font-weight:800;
+    font-size:1.5rem;
+    color:var(--member-color-dark);
+  }
+
+  .profile-info{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+    flex:1;
+    position:relative;
+    z-index:1;
+  }
+
+  .profile-name{
+    font-weight:800;
+    font-size:1.08rem;
+    color:#FFFFFF;
+    line-height:1.25;
+    text-shadow:0 1px 3px rgba(0,0,0,0.35);
+  }
+
+  .profile-role{
+    font-size:0.88rem;
+    font-weight:700;
+    color:rgba(255,255,255,0.92);
+    line-height:1.3;
+    text-shadow:0 1px 2px rgba(0,0,0,0.25);
+  }
+
+  .recommendation-games{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .soirees-card__banner{
+    height:92px;
+    background:linear-gradient(120deg, var(--orange) 0%, #2F7D46 100%);
+    position:relative;
+  }
+
+  .soirees-card__icon{
+    position:absolute;
+    bottom:-28px;
+    left:50%;
+    transform:translateX(-50%);
+    width:64px;
+    height:64px;
+    background:var(--paper);
+    border:3px solid var(--paper);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.7rem;
+    box-shadow:var(--shadow);
+  }
+
+  .soirees-card__body{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:44px 24px 32px;
+    gap:6px;
+  }
+
+  .soirees-card__title{
+    margin:0;
+    font-size:1.25rem;
+    font-weight:800;
+    color:var(--ink);
+  }
+
+  .soirees-card__text{
+    margin:0 0 10px;
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    max-width:380px;
+  }
+
+  .soirees-card__cta{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--orange);
+    color:#FFFFFF;
+    font-weight:700;
+    font-size:0.95rem;
+    padding:12px 24px;
+    border-radius:999px;
+    text-decoration:none;
+    transition:background .2s ease, transform .2s ease;
+  }
+
+  .soirees-card__cta:hover{
+    background:var(--orange-dark);
+    transform:translateY(-2px);
+  }
+
+  .soirees-card__cta-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  .soirees-card__cta--secondary{
+    background:#1877F2;
+  }
+
+  .soirees-card__cta--secondary:hover{
+    background:#0F5FCC;
+  }
+
+  .tab-content{
+    display:none;
+  }
+
+  .tab-content.active{
+    display:block;
+  }
+
+  .lightbox{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(42,33,26,0.8);
+    z-index:100;
+    backdrop-filter:blur(4px);
+  }
+
+  .lightbox[hidden]{
+    display:none !important;
+  }
+
+  .lightbox__content{
+    position:relative;
+    max-width:90vw;
+    max-height:90vh;
+  }
+
+  .lightbox__stage{
+    position:relative;
+    display:inline-block;
+    max-width:90vw;
+    max-height:90vh;
+    line-height:0;
+  }
+
+  .lightbox__img{
+    max-width:90vw;
+    max-height:90vh;
+    display:block;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+
+  .lightbox__markers{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+  }
+
+  .lightbox__close{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:40px;
+    height:40px;
+    background:var(--paper);
+    border:none;
+    border-radius:50%;
+    font-size:1.5rem;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .2s ease;
+  }
+
+  .lightbox__close:hover{
+    background:var(--orange-soft);
+  }
+
+  @media (max-width:480px){
+    .app__header{padding:20px 16px 16px;}
+    .brand h1{font-size:1.25rem;}
+    .app__subtitle{margin-left:44px; font-size:0.85rem;}
+    .tabs{margin:12px 0 0; padding:0 12px; gap:4px;}
+    .tab-btn{padding:9px 4px; font-size:0.8rem; gap:4px;}
+    .tab-btn__heart{width:16px; height:16px;}
+    .search-sticky-wrap{padding:10px 16px 8px;}
+    .search-tags{margin:10px 16px 0;}
+    .filters{margin-left:16px; margin-right:16px;}
+    .tab-intro{padding:16px 16px 0;}
+    .results{padding:16px 16px 0;}
+    .card__body{padding:14px;}
+    .profile-avatar{width:63px; height:60px;}
+    .profile-avatar__letter{font-size:1.2rem; margin-top:-3px;}
+    .profile-name{font-size:0.95rem;}
+  }
+
+  @media (max-width:360px){
+    .filters__input{width:58px;}
+    .chip{font-size:0.82rem; padding:5px 10px;}
+  }

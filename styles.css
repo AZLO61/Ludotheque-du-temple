@@ -687,10 +687,15 @@
     user-select: none;
   }
 
-  .search-tag:hover {
-    background: var(--teal-chip-bg);
-    color: var(--teal-chip-text);
-    border-color: var(--filter-active-bg);
+  /* Le :hover tactile peut rester accroche apres un tap sur mobile et donner
+     l'impression qu'une categorie deselectionnee est encore active. On ne
+     l'applique donc qu'aux appareils disposant d'un vrai survol. */
+  @media (hover: hover) {
+    .search-tag:hover {
+      background: var(--teal-chip-bg);
+      color: var(--teal-chip-text);
+      border-color: var(--filter-active-bg);
+    }
   }
 
   .search-tag.active,
@@ -711,10 +716,12 @@
     font-weight: 700;
   }
 
-  .search-tag--new:hover{
-    background: var(--orange);
-    color: #FFFFFF;
-    border-color: var(--orange);
+  @media (hover: hover) {
+    .search-tag--new:hover{
+      background: var(--orange);
+      color: #FFFFFF;
+      border-color: var(--orange);
+    }
   }
 
   .search-tag--new.active{

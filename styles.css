@@ -61,6 +61,8 @@
 
     /* Orange d'accent dédié : même teinte que le dé de la page d'accueil, réutilisé pour le badge Nouveauté */
     --orange-accent-primary:var(--orange);
+    --category-toggle-accent:#F2C14E;
+    --category-toggle-accent-text:#3B2A00;
 
     /* Couleur unique du cœur (chip profil/reco + marqueur sur la photo de case) */
     --heart-profile-reco-color:#fd0050de;
@@ -127,6 +129,7 @@
      de focus dédié (inputs, cœurs). Nécessaire pour parcourir le site au
      clavier (Tab) sur un lien public partagé sur les réseaux du bar. */
   .tab-btn:focus-visible,
+  .categories-toggle:focus-visible,
   .search-tag:focus-visible,
   .filter-btn:focus-visible,
   .filters__reset:focus-visible,
@@ -667,11 +670,96 @@
     background:var(--orange-soft);
   }
 
+  .categories-toggle{
+    display:flex;
+    align-items:center;
+    width:calc(100% - 40px);
+    margin:10px 20px 0;
+    padding:10px 12px;
+    border:1px solid var(--chip-surface-border);
+    border-radius:var(--chip-radius);
+    background:var(--paper);
+    color:var(--ink);
+    font-family:inherit;
+    font-size:var(--text-sm);
+    font-weight:700;
+    cursor:pointer;
+  }
+
+  .categories-toggle__summary{
+    margin-left:auto;
+    color:var(--ink-soft);
+    font-size:var(--text-xs);
+    font-weight:600;
+  }
+
+  .categories-toggle__indicator{
+    position:relative;
+    margin-left:8px;
+    width:24px;
+    height:24px;
+    flex:0 0 24px;
+    border-radius:50%;
+    background:var(--category-toggle-accent);
+  }
+
+  .categories-toggle__indicator::before,
+  .categories-toggle__indicator::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:10px;
+    height:2px;
+    border-radius:2px;
+    background:var(--category-toggle-accent-text);
+    transform:translate(-50%, -50%);
+    transition:opacity .18s ease, transform .18s ease;
+  }
+
+  .categories-toggle__indicator::after{
+    transform:translate(-50%, -50%) rotate(90deg);
+  }
+
+  .categories-toggle[aria-expanded="true"] .categories-toggle__indicator::after{
+    opacity:0;
+    transform:translate(-50%, -50%) rotate(0deg);
+  }
+
   .search-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 10px 20px 0;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    max-height:0;
+    margin:0 20px;
+    overflow:hidden;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translateY(-6px);
+    transition:
+      max-height .32s ease,
+      margin-top .32s ease,
+      opacity .2s ease,
+      transform .28s ease,
+      visibility 0s linear .32s;
+  }
+
+  .search-tags.is-open{
+    max-height:600px;
+    margin-top:8px;
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateY(0);
+    transition-delay:0s;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .search-tags,
+    .categories-toggle__indicator::after{
+      transition:none;
+    }
   }
 
   .search-tag {
@@ -706,13 +794,9 @@
     border-color: var(--filter-active-bg);
   }
 
-  /* La pastille Nouveauté se distingue légèrement des autres catégories.
-     Utilise les variables --chip-accent-*, déjà adaptées par thème, plutôt
-     que --orange-soft/--orange-deep fixes, pour rester lisible en mode sombre. */
+  /* Nouveauté reste neutre au repos pour ne pas sembler sélectionnée.
+     Son accent orange apparaît uniquement au survol ou à l'activation. */
   .search-tag--new{
-    background: var(--chip-accent-bg);
-    border-color: var(--orange);
-    color: var(--chip-accent-text);
     font-weight: 700;
   }
 
@@ -1701,7 +1785,15 @@
     .tab-btn{padding:9px 4px; font-size:var(--text-2xs); gap:4px;}
     .tab-btn__heart{width:16px; height:16px;}
     .search-bar-wrap{padding:10px 16px 8px;}
-    .search-tags{margin:10px 16px 0;}
+    .categories-toggle{
+      width:calc(100% - 32px);
+      margin-left:16px;
+      margin-right:16px;
+    }
+    .search-tags{
+      margin-left:16px;
+      margin-right:16px;
+    }
     .filters{margin-left:16px; margin-right:16px;}
     .tab-intro{padding:16px 16px 0;}
     .results{padding:16px 16px 0;}

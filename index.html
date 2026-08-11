@@ -80,8 +80,19 @@
       <button id="randomGameBtn" type="button" class="random-btn">🎲 Je ne sais pas quoi choisir ?</button>
     </div>
 
-    <!-- 15 Catégories de recherche multi-sélectionnables -->
-    <div class="search-tags">
+    <!-- Catégories de recherche multi-sélectionnables -->
+    <button
+      id="categoriesToggle"
+      class="categories-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="searchCategories"
+    >
+      <span>🎯 Catégories</span>
+      <span class="categories-toggle__summary" id="categoriesSummary">Afficher</span>
+      <span class="categories-toggle__indicator" aria-hidden="true"></span>
+    </button>
+    <div class="search-tags" id="searchCategories">
       <button class="search-tag search-tag--new" data-tag="Nouveauté">✨ Nouveauté</button>
       <button class="search-tag" data-tag="Ambiance">😂 Ambiance</button>
       <button class="search-tag" data-tag="Cartes">🃏 Cartes</button>

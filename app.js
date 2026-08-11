@@ -410,6 +410,9 @@
   const resultsEl = document.getElementById("results");
   const searchInput = document.getElementById("searchInput");
   const clearBtn = document.getElementById("clearBtn");
+  const categoriesToggle = document.getElementById("categoriesToggle");
+  const categoriesPanel = document.getElementById("searchCategories");
+  const categoriesSummary = document.getElementById("categoriesSummary");
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightboxImg");
   const lightboxClose = document.getElementById("lightboxClose");
@@ -417,6 +420,27 @@
   const brandLink = document.getElementById("brandLink");
 
   let selectedTags = [];
+
+  function mettreAJourResumeCategories(){
+    if (!categoriesSummary) return;
+    const nbCategories = selectedTags.length;
+    if (nbCategories === 0) {
+      categoriesSummary.textContent = categoriesToggle && categoriesToggle.getAttribute("aria-expanded") === "true"
+        ? "Masquer"
+        : "Afficher";
+      return;
+    }
+    categoriesSummary.textContent = nbCategories + " sélectionnée" + (nbCategories > 1 ? "s" : "");
+  }
+
+  if (categoriesToggle && categoriesPanel) {
+    categoriesToggle.addEventListener("click", function(){
+      const estOuvert = this.getAttribute("aria-expanded") === "true";
+      this.setAttribute("aria-expanded", estOuvert ? "false" : "true");
+      categoriesPanel.classList.toggle("is-open", !estOuvert);
+      mettreAJourResumeCategories();
+    });
+  }
 
   // Mémorise la position de défilement juste avant de passer de la liste à
   // la vue "un seul jeu" (clic sur un nom de jeu), pour pouvoir y revenir
@@ -729,6 +753,7 @@
         selectedTags.push(tagName);
         this.classList.add("active");
       }
+      mettreAJourResumeCategories();
       definirModeHasard(false);
       afficher();
     });
@@ -792,6 +817,7 @@
     clearBtn.hidden = true;
     selectedTags = [];
     document.querySelectorAll(".search-tag").forEach(t => t.classList.remove("active"));
+    mettreAJourResumeCategories();
     joueursMinInput.value = "";
     joueursMaxInput.value = "";
     dureeMaxInput.value = "";

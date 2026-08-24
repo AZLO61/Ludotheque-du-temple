@@ -90,7 +90,14 @@
       const description = item.description
         ? '<p class="programme-popup__item-text">' + echapperHTML(item.description) + '</p>'
         : '';
-      return '<div class="programme-popup__item">'
+      // `avant: true` (voir data.js) marque l'entrée qu'on veut particulièrement
+      // mettre en avant : un badge, plutôt qu'un traitement identique à toutes
+      // les entrées qui ne la distinguerait pas.
+      const badgeAvant = item.avant
+        ? '<span class="programme-popup__item-badge">✨ À ne pas manquer</span>'
+        : '';
+      return '<div class="programme-popup__item' + (item.avant ? ' programme-popup__item--avant' : '') + '">'
+        + badgeAvant
         + '<p class="programme-popup__item-title">' + echapperHTML(item.titre) + '</p>'
         + description
         + '<a class="programme-popup__item-cta" href="' + echapperHTML(item.lien) + '" target="_blank" rel="noopener">📸 Voir sur Instagram</a>'

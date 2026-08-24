@@ -512,12 +512,13 @@
 
   // Programme du mois : soirées événement mises en avant dans la popup qui
   // s'affiche à l'arrivée sur le site. Chaque entrée : titre, description
-  // courte (facultative), et lien vers la publication Instagram. Liste vide
-  // -> la popup ne s'affiche pas.
-  // ⚠️ EXEMPLES à remplacer/compléter par le vrai programme du mois.
+  // courte (facultative), lien vers la publication Instagram, et `avant: true`
+  // facultatif pour l'entrée qu'on veut particulièrement mettre en avant (elle
+  // reçoit un badge, voir renderProgrammeItem dans app.js). Liste vide -> la
+  // popup ne s'affiche pas.
   let PROGRAMME_DU_MOIS = [
-    { titre: "Soirée événement", description: "", lien: "https://www.instagram.com/p/DbvabzcsmeS/" },
-    { titre: "Soirée événement", description: "", lien: "https://www.instagram.com/p/DcDjUHRuANY/" },
+    { titre: "Le programme du mois", description: "Le résumé de nos soirées événement.", lien: "https://www.instagram.com/p/DbVqcBiMpgH/" },
+    { titre: "Soirée à ne pas manquer le mois prochain", description: "", lien: "https://www.instagram.com/p/DbvabzcsmeS/", avant: true },
   ];
 
   // --------------------------------------------------------------

@@ -1,0 +1,8 @@
+# Confort local (Windows), sans utilité pour le site déployé ni pour un
+# contributeur sur un autre OS : reste sur la machine, ne part pas sur GitHub.
+*.bat
+
+# Fichiers système que Windows/macOS peuvent déposer dans un dossier partagé.
+Thumbs.db
+desktop.ini
+.DS_Store

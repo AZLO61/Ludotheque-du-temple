@@ -2025,6 +2025,30 @@
     text-align:left;
   }
 
+  /* Entrée marquée `avant: true` dans PROGRAMME_DU_MOIS (data.js) : celle que
+     l'équipe veut particulièrement mettre en avant, distinguée par une bordure
+     et un badge plutôt qu'un traitement identique aux autres entrées. */
+  .programme-popup__item--avant{
+    border-color:var(--orange);
+    border-width:2px;
+    background:var(--orange-soft);
+  }
+
+  [data-theme="dark"] .programme-popup__item--avant{
+    background:#3A2412;
+  }
+
+  .programme-popup__item-badge{
+    display:inline-block;
+    margin-bottom:6px;
+    padding:3px 9px;
+    border-radius:999px;
+    background:var(--orange);
+    color:#FFFFFF;
+    font-size:var(--text-2xs);
+    font-weight:700;
+  }
+
   .programme-popup__item-title{
     margin:0 0 3px;
     font-size:var(--text-sm);

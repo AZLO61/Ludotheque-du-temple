@@ -1881,22 +1881,22 @@
   }
 
   .programme-bubble__btn{
-    width:96px;
-    height:96px;
-    padding:8px 6px;
+    width:67px;
+    height:67px;
+    padding:5px 4px;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:4px;
+    gap:2px;
     border:2px solid var(--orange);
-    border-radius:22px;
+    border-radius:16px;
     background:var(--orange);
     color:#FFFFFF;
     font-family:inherit;
-    font-size:var(--text-2xs);
+    font-size:9px;
     font-weight:700;
-    line-height:1.2;
+    line-height:1.15;
     text-align:center;
     cursor:pointer;
     box-shadow:var(--shadow);
@@ -1910,7 +1910,7 @@
   }
 
   .programme-bubble__icon{
-    font-size:1.6rem;
+    font-size:1.15rem;
     line-height:1;
   }
 
@@ -2059,8 +2059,8 @@
   @media (max-width:480px){
     html{font-size:100%;} /* la base 106.25% (≈17px) donne un rendu trop "zoomé" sur petit écran : on revient à 16px */
     .programme-bubble{bottom:12px; right:12px;}
-    .programme-bubble__btn{width:80px; height:80px; border-radius:18px;}
-    .programme-bubble__icon{font-size:1.35rem;}
+    .programme-bubble__btn{width:56px; height:56px; border-radius:13px;}
+    .programme-bubble__icon{font-size:1rem;}
     .app__header{padding:20px 16px 16px;}
     .brand h1{font-size:var(--text-lg);}
     .app__subtitle{margin-left:44px; font-size:var(--text-xs);}

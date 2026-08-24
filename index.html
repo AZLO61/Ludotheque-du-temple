@@ -134,9 +134,15 @@
         <label class="filters__label" for="dureeMax">⏱ Durée max (minutes)</label>
         <input id="dureeMax" class="filters__input filters__input--duree" type="number" min="1" max="300" placeholder="45">
         <span class="filters__sep">min</span>
+        <button id="filtersValidateBtn" type="button" class="filters__validate">✓ Valider</button>
         <button class="filters__reset" data-filter-clear>↺ Réinitialiser</button>
       </div>
     </div>
+
+    <!-- Filtre par étagère : les boutons sont générés depuis CASES (data.js)
+         par app.js, pour qu'ajouter une case au catalogue ajoute son bouton
+         sans toucher à ce fichier. -->
+    <div class="shelf-tabs" id="shelfTabs" role="group" aria-label="Filtrer par étagère"></div>
 
     <div id="results" class="results"></div>
   </div>
@@ -186,6 +192,24 @@
   <footer class="app__footer">
     <p class="app__footer-text">🔒 Aucune donnée n'est enregistrée : ce site ne collecte, ne stocke ni ne transmet aucune information personnelle, ni sur un serveur, ni dans votre navigateur.</p>
   </footer>
+</div>
+
+<div id="programmeBubble" class="programme-bubble" hidden>
+  <button id="programmeBubbleBtn" type="button" class="programme-bubble__btn">
+    <span class="programme-bubble__icon" aria-hidden="true">🎉</span>
+    <span class="programme-bubble__label">Programme<br>du mois</span>
+  </button>
+  <button id="programmeBubbleDismiss" type="button" class="programme-bubble__dismiss" aria-label="Masquer le programme du mois">✕</button>
+</div>
+
+<div id="programmePopup" class="programme-popup" hidden>
+  <div class="programme-popup__panel">
+    <button id="programmePopupClose" type="button" class="programme-popup__close" aria-label="Fermer">✕</button>
+    <span class="programme-popup__icon" aria-hidden="true">🎉</span>
+    <h2 class="programme-popup__title">Le programme du mois</h2>
+    <p class="programme-popup__text">Retrouve nos dernières soirées événement.</p>
+    <div id="programmePopupList" class="programme-popup__list"></div>
+  </div>
 </div>
 
 <div id="lightbox" class="lightbox" hidden>

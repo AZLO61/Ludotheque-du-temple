@@ -9,6 +9,7 @@
  *   - ajouter/retirer une jaquette (objet COVERS)
  *   - mettre à jour les recommandations de l'équipe (RECOMMENDATIONS)
  *   - mettre à jour la liste des jeux à vendre (JEUX_A_VENDRE)
+ *   - mettre à jour le programme du mois affiché en popup (PROGRAMME_DU_MOIS)
  *
  * Aucune logique d'affichage ici : voir app.js pour le rendu et les
  * interactions. Ce découpage permet de modifier les données sans
@@ -507,6 +508,16 @@
   let JEUX_A_VENDRE = [
     { nom: "Munchkin", prix: "8 €", etat: "Bon état, complet" },
     { nom: "Uno", prix: "3 €", etat: "Bon état" },
+  ];
+
+  // Programme du mois : soirées événement mises en avant dans la popup qui
+  // s'affiche à l'arrivée sur le site. Chaque entrée : titre, description
+  // courte (facultative), et lien vers la publication Instagram. Liste vide
+  // -> la popup ne s'affiche pas.
+  // ⚠️ EXEMPLES à remplacer/compléter par le vrai programme du mois.
+  let PROGRAMME_DU_MOIS = [
+    { titre: "Soirée événement", description: "", lien: "https://www.instagram.com/p/DbvabzcsmeS/" },
+    { titre: "Soirée événement", description: "", lien: "https://www.instagram.com/p/DcDjUHRuANY/" },
   ];
 
   // --------------------------------------------------------------

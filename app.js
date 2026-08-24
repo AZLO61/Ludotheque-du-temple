@@ -6,7 +6,7 @@
  * de l'équipe, onglet "à vendre", navigation entre onglets.
  *
  * Ce fichier dépend de data.js (chargé avant lui dans index.html) qui
- * expose : COVERS, CASES, JEUX, RECOMMENDATIONS, JEUX_A_VENDRE.
+ * expose : COVERS, CASES, JEUX, RECOMMENDATIONS, JEUX_A_VENDRE, PROGRAMME_DU_MOIS.
  * Aucune donnée du catalogue ne doit être modifiée ici.
  * ------------------------------------------------------------------
  */
@@ -47,9 +47,78 @@
   // chargement de page ; le bouton "C'est parti !" laisse place à l'application.
   const welcomeScreen = document.getElementById("welcomeScreen");
   const startBtn = document.getElementById("startBtn");
+
   if (startBtn) {
     startBtn.addEventListener("click", function(){
       if (welcomeScreen) welcomeScreen.hidden = true;
+      // Le minuteur démarre au passage de la première page, pas au chargement :
+      // sinon quelqu'un qui traîne sur l'écran d'accueil verrait la bulle
+      // apparaître avant même d'être entré dans l'application.
+      setTimeout(afficherBulleProgramme, DELAI_PROGRAMME_MS);
+    });
+  }
+
+  // "Programme du mois" — soirées événement (liens Instagram).
+  // Volontairement discret : une petite bulle apparaît en bas à droite 5
+  // secondes après être passé de l'écran d'accueil à l'application, et c'est
+  // le CLIC dessus qui ouvre le détail. Rien ne s'impose donc à l'écran sans
+  // que le client l'ait demandé. Alimenté par PROGRAMME_DU_MOIS (data.js) ;
+  // liste vide = aucune bulle, pour ne rien montrer tant que l'équipe n'a pas
+  // rempli le vrai programme.
+  const DELAI_PROGRAMME_MS = 5000;
+  const programmeBubble = document.getElementById("programmeBubble");
+  const programmeBubbleBtn = document.getElementById("programmeBubbleBtn");
+  const programmeBubbleDismiss = document.getElementById("programmeBubbleDismiss");
+  const programmePopup = document.getElementById("programmePopup");
+  const programmePopupList = document.getElementById("programmePopupList");
+  const programmePopupClose = document.getElementById("programmePopupClose");
+  let programmeEcarte = false;
+
+  function programmeDisponible(){
+    return typeof PROGRAMME_DU_MOIS !== "undefined" && PROGRAMME_DU_MOIS && PROGRAMME_DU_MOIS.length > 0;
+  }
+
+  function afficherBulleProgramme(){
+    if (!programmeBubble || programmeEcarte || !programmeDisponible()) return;
+    programmeBubble.hidden = false;
+  }
+
+  function ouvrirProgrammePopup(){
+    if (!programmePopup || !programmePopupList || !programmeDisponible()) return;
+
+    programmePopupList.innerHTML = PROGRAMME_DU_MOIS.map(function(item){
+      const description = item.description
+        ? '<p class="programme-popup__item-text">' + echapperHTML(item.description) + '</p>'
+        : '';
+      return '<div class="programme-popup__item">'
+        + '<p class="programme-popup__item-title">' + echapperHTML(item.titre) + '</p>'
+        + description
+        + '<a class="programme-popup__item-cta" href="' + echapperHTML(item.lien) + '" target="_blank" rel="noopener">📸 Voir sur Instagram</a>'
+        + '</div>';
+    }).join('');
+
+    programmePopup.hidden = false;
+  }
+
+  function fermerProgrammePopup(){
+    if (programmePopup) programmePopup.hidden = true;
+  }
+
+  if (programmeBubbleBtn) {
+    programmeBubbleBtn.addEventListener("click", ouvrirProgrammePopup);
+  }
+  if (programmeBubbleDismiss) {
+    programmeBubbleDismiss.addEventListener("click", function(){
+      programmeEcarte = true;
+      programmeBubble.hidden = true;
+    });
+  }
+  if (programmePopupClose) {
+    programmePopupClose.addEventListener("click", fermerProgrammePopup);
+  }
+  if (programmePopup) {
+    programmePopup.addEventListener("click", function(e){
+      if (e.target === programmePopup) fermerProgrammePopup();
     });
   }
 
@@ -137,6 +206,30 @@
     // (ex: re-clic sur son propre nom), on garde la position déjà enregistrée.
     if (searchInput.value.trim().length === 0) {
       scrollAvantDetail = window.scrollY;
+    }
+
+    // Un filtre d'étagère actif masquerait le jeu demandé s'il est rangé
+    // ailleurs — cas courant depuis l'onglet Coups de cœur, qui pointe vers
+    // n'importe quelle étagère. On ne lève le filtre QUE dans ce cas, pour
+    // ne pas faire perdre son contexte à quelqu'un qui parcourt une étagère
+    // et clique sur un jeu de cette même étagère.
+    if (etagereActive !== "tous") {
+      const cible = JEUX.find(function (j) { return j.nom === nomJeu; });
+      if (cible && cible.case !== etagereActive) {
+        etagereActive = "tous";
+        majOngletsEtageres();
+      }
+    }
+
+    // Même famille de piège que le filtre d'étagère ci-dessus, mais pour les
+    // catégories et les filtres joueurs/durée : cliquer un jeu (typiquement un
+    // coup de cœur, qui pointe vers n'importe quel jeu du catalogue) alors
+    // qu'un filtre incompatible est actif affichait "Aucun jeu ne correspond"
+    // — on a cliqué sur un jeu et on obtient une liste vide. On ne lève ces
+    // filtres QUE si le jeu demandé ne les passe pas.
+    const cibleFiltres = JEUX.find(function (j) { return j.nom === nomJeu; });
+    if (cibleFiltres && !jeuPasseFiltresNonTextuels(cibleFiltres)) {
+      leverFiltresCategoriesEtNombres();
     }
 
     // Remplir la recherche
@@ -492,8 +585,118 @@
     return !!jeu.joueurs && jeu.joueurs[0] === 2 && jeu.joueurs[1] === 2;
   }
 
+  /* ── FILTRE PAR ÉTAGÈRE ──────────────────────────────────────
+     La liste étant groupée par case, atteindre la troisième obligeait à
+     faire défiler toute la première. Ces boutons filtrent directement.
+
+     Les libellés sont dérivés de l'ORDRE de CASES ("Étagère 1", "Étagère
+     2"...) plutôt que du champ `nom` ("Case A"), parce que c'est le
+     vocabulaire des clients au bar. Ajouter une case dans data.js ajoute
+     son bouton automatiquement, sans toucher au HTML.
+  ─────────────────────────────────────────────────────────────── */
+  let etagereActive = "tous";
+
+  function libelleEtagere(index) {
+    return "Étagère " + (index + 1);
+  }
+
+  function construireOngletsEtageres() {
+    const conteneur = document.getElementById("shelfTabs");
+    if (!conteneur || typeof CASES === "undefined") return;
+
+    const boutons = [{ id: "tous", libelle: "Tous" }].concat(
+      CASES.map(function (c, i) {
+        return { id: c.id, libelle: libelleEtagere(i) };
+      })
+    );
+
+    conteneur.innerHTML = boutons
+      .map(function (b) {
+        const actif = b.id === etagereActive;
+        return (
+          '<button type="button" class="shelf-tab' + (actif ? " is-active" : "") + '"' +
+          ' data-shelf="' + b.id + '"' +
+          ' aria-pressed="' + actif + '">' +
+          echapperHTML(b.libelle) +
+          "</button>"
+        );
+      })
+      .join("");
+
+    conteneur.querySelectorAll(".shelf-tab").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        definirEtagere(btn.dataset.shelf);
+      });
+    });
+  }
+
+  function majOngletsEtageres() {
+    document.querySelectorAll(".shelf-tab").forEach(function (btn) {
+      const actif = btn.dataset.shelf === etagereActive;
+      btn.classList.toggle("is-active", actif);
+      btn.setAttribute("aria-pressed", String(actif));
+    });
+  }
+
+  function definirEtagere(id) {
+    etagereActive = id || "tous";
+    majOngletsEtageres();
+    afficher();
+  }
+
+  // Tous les critères SAUF le texte de recherche et l'étagère : catégories,
+  // nombre de joueurs et durée. Extrait dans sa propre fonction pour avoir
+  // UN SEUL endroit qui décide si un jeu passe ces filtres — meFiltreGlobal()
+  // s'en sert pour construire la liste, et chercherJeu() pour savoir s'il doit
+  // lever un filtre qui masquerait le jeu qu'on vient de cliquer.
+  function jeuPasseFiltresNonTextuels(jeu) {
+    // Catégories : intersection STRICTE (le jeu doit porter TOUS les tags actifs)
+    if (selectedTags.length > 0) {
+      const tousLesTags = selectedTags.every(function(tag) {
+        return jeuCorrespondATag(jeu, tag);
+      });
+      if (!tousLesTags) return false;
+    }
+
+    // Nombre de joueurs (ruling Nikola du 24 août 2026).
+    // La fourchette saisie décrit le GROUPE, et un jeu prévu pour accueillir
+    // BEAUCOUP plus de monde que ce groupe ne doit pas être proposé : demander
+    // « 2 à 4 » ne doit pas remonter un jeu 2-6 ou 2-10, qui sont des jeux
+    // conçus pour aller au-delà de 4.
+    //   - le jeu doit pouvoir se jouer dans la fourchette demandée ;
+    //   - et son maximum ne doit pas dépasser le maximum demandé.
+    // Chaque borne agit seule : remplir Min sans Max (ou l'inverse) filtre sur
+    // cette seule borne. Ne PAS remplacer par une contenance stricte sur les
+    // deux bornes (gameMin >= min) : mesuré sur le catalogue réel, ça donne 0
+    // jeu pour « min 6 » comme pour « 4 à 4 », aucun jeu n'ayant un minimum
+    // supérieur à 5.
+    if (filtresActifs.joueursMin !== null || filtresActifs.joueursMax !== null) {
+      if (!jeu.joueurs) return false;
+      const gameMin = jeu.joueurs[0];
+      const gameMax = jeu.joueurs[1];
+      if (filtresActifs.joueursMin !== null && gameMax < filtresActifs.joueursMin) return false;
+      if (filtresActifs.joueursMax !== null && gameMin > filtresActifs.joueursMax) return false;
+      if (filtresActifs.joueursMax !== null && gameMax > filtresActifs.joueursMax) return false;
+    }
+
+    // Durée max
+    if (filtresActifs.dureeMax !== null) {
+      if (!jeu.duree || jeu.duree > filtresActifs.dureeMax) return false;
+    }
+
+    return true;
+  }
+
   function meFiltreGlobal() {
     let result = JEUX;
+
+    // Filtre étagère. Placé en premier pour que le compteur « X jeu(x)
+    // affiché(s) » reflète bien ce qu'on voit à l'écran.
+    if (etagereActive !== "tous") {
+      result = result.filter(function (j) {
+        return j.case === etagereActive;
+      });
+    }
 
     // Filtre texte
     if (searchInput.value.trim().length > 0) {
@@ -505,34 +708,7 @@
       });
     }
 
-    // Filtre multi-catégories (Intersection STRICTE)
-    if (selectedTags.length > 0) {
-      result = result.filter(function(j) {
-        return selectedTags.every(function(tag) {
-          return jeuCorrespondATag(j, tag);
-        });
-      });
-    }
-
-    // Filtre nb joueurs
-    if (filtresActifs.joueursMin !== null || filtresActifs.joueursMax !== null) {
-      result = result.filter(function(j) {
-        const gameMin = j.joueurs ? j.joueurs[0] : 1;
-        const gameMax = j.joueurs ? j.joueurs[1] : 100;
-        if (filtresActifs.joueursMin !== null && filtresActifs.joueursMin < gameMin) return false;
-        if (filtresActifs.joueursMax !== null && filtresActifs.joueursMax > gameMax) return false;
-        return true;
-      });
-    }
-
-    // Filtre durée max
-    if (filtresActifs.dureeMax !== null) {
-      result = result.filter(function(j) {
-        return j.duree && j.duree <= filtresActifs.dureeMax;
-      });
-    }
-
-    return result;
+    return result.filter(jeuPasseFiltresNonTextuels);
   }
 
   function afficher() {
@@ -804,7 +980,10 @@
     if (e.target === lightbox) fermerLightbox();
   });
   document.addEventListener("keydown", function(e){
-    if (e.key === "Escape") fermerLightbox();
+    if (e.key === "Escape") {
+      fermerLightbox();
+      if (programmePopup) programmePopup.hidden = true;
+    }
   });
 
   // Filtres Dynamiques (Joueurs, Durée)
@@ -812,9 +991,9 @@
   const joueursMaxInput = document.getElementById("joueursMax");
   const dureeMaxInput = document.getElementById("dureeMax");
 
-  function reinitialiserFiltresRecherche() {
-    searchInput.value = "";
-    clearBtn.hidden = true;
+  // Lève les catégories et les filtres joueurs/durée (champs ET état interne),
+  // sans toucher au texte de recherche ni à l'étagère.
+  function leverFiltresCategoriesEtNombres() {
     selectedTags = [];
     document.querySelectorAll(".search-tag").forEach(t => t.classList.remove("active"));
     mettreAJourResumeCategories();
@@ -826,13 +1005,59 @@
     filtresActifs.dureeMax = null;
   }
 
+  function reinitialiserFiltresRecherche() {
+    searchInput.value = "";
+    clearBtn.hidden = true;
+    leverFiltresCategoriesEtNombres();
+    // Le filtre d'étagère est un critère de recherche comme un autre :
+    // « Réinitialiser » doit le lever, sinon on croit avoir tout remis à
+    // zéro alors qu'une étagère reste sélectionnée.
+    etagereActive = "tous";
+    majOngletsEtageres();
+  }
+
+  // Filtre appliqué sur validation explicite (bouton ou touche Entrée),
+  // pas à chaque frappe : sur un clavier tactile, filtrer dès le premier
+  // chiffre tapé (ex. le "1" de "10") affichait un résultat faux le temps
+  // de finir de taper.
+  // Lit un champ nombre. Renvoie null si vide OU si la saisie n'est pas un
+  // entier exploitable : sans ce garde-fou, un "0" tapé au clavier (que
+  // l'attribut min="1" n'empêche pas) passait en filtre actif et vidait la
+  // liste sans que rien n'explique pourquoi.
+  function lireChampNombre(input){
+    if (!input.value) return null;
+    const valeur = parseInt(input.value, 10);
+    return Number.isFinite(valeur) && valeur > 0 ? valeur : null;
+  }
+
+  function appliquerFiltresNombreDuree(){
+    let min = lireChampNombre(joueursMinInput);
+    let max = lireChampNombre(joueursMaxInput);
+
+    // Min et Max saisis à l'envers (ex. 4 puis 2) : aucune combinaison ne peut
+    // matcher, on aurait un "aucun jeu" incompréhensible. On remet la
+    // fourchette à l'endroit ET on le reflète dans les champs, pour que
+    // l'écran montre bien ce qui a été appliqué.
+    if (min !== null && max !== null && min > max) {
+      const echange = min; min = max; max = echange;
+      joueursMinInput.value = min;
+      joueursMaxInput.value = max;
+    }
+
+    filtresActifs.joueursMin = min;
+    filtresActifs.joueursMax = max;
+    filtresActifs.dureeMax = lireChampNombre(dureeMaxInput);
+    definirModeHasard(false);
+    afficher();
+  }
+
+  const filtersValidateBtn = document.getElementById("filtersValidateBtn");
+  if (filtersValidateBtn) {
+    filtersValidateBtn.addEventListener("click", appliquerFiltresNombreDuree);
+  }
   [joueursMinInput, joueursMaxInput, dureeMaxInput].forEach(function(input){
-    input.addEventListener("input", function(){
-      filtresActifs.joueursMin = joueursMinInput.value ? parseInt(joueursMinInput.value) : null;
-      filtresActifs.joueursMax = joueursMaxInput.value ? parseInt(joueursMaxInput.value) : null;
-      filtresActifs.dureeMax = dureeMaxInput.value ? parseInt(dureeMaxInput.value) : null;
-      definirModeHasard(false);
-      afficher();
+    input.addEventListener("keydown", function(e){
+      if (e.key === "Enter") appliquerFiltresNombreDuree();
     });
   });
 
@@ -962,4 +1187,5 @@
   }
 
   // Initialisation
+  construireOngletsEtageres();
   afficher();

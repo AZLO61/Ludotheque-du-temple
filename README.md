@@ -59,6 +59,34 @@ Pour ajouter un coup de cœur d'équipe, ajouter le nom du jeu dans le tableau
 
 Pour mettre en vente un jeu, ajouter une entrée dans `JEUX_A_VENDRE`.
 
+Pour mettre à jour le programme du mois, modifier `PROGRAMME_DU_MOIS` : chaque
+entrée prend un `titre`, une `description` facultative, et un `lien` vers la
+publication Instagram de la soirée. Liste vide = rien ne s'affiche.
+
+Côté visiteur, ça se présente en deux temps : une petite bulle carrée apparaît
+en bas à droite **5 secondes** après être passé de l'écran d'accueil à
+l'application (délai réglable via `DELAI_PROGRAMME_MS` dans `app.js`), et
+c'est le clic sur cette bulle qui ouvre le panneau détaillé. Rien ne recouvre
+l'écran sans geste du client. Les liens Instagram sont de simples liens
+sortants : aucun script Instagram n'est chargé, donc la promesse "aucune
+donnée enregistrée" du pied de page reste vraie.
+
+## Filtre "Nombre de joueurs" (règle tranchée le 24 août 2026)
+
+La fourchette saisie décrit **le groupe**, et un jeu prévu pour accueillir bien
+plus de monde que ce groupe ne doit pas être proposé : demander « 2 à 4 » ne
+remonte donc pas un jeu 2-6 ou 2-10. Concrètement, un jeu passe le filtre si :
+
+- il peut se jouer dans la fourchette demandée, et
+- son maximum ne dépasse pas le maximum demandé.
+
+Chaque borne agit seule (remplir Min sans Max, ou l'inverse, est permis).
+
+⚠️ Ne pas « corriger » ça en une contenance stricte sur les deux bornes
+(`gameMin >= min`) : mesuré sur le catalogue réel, ça donne **0 jeu** pour
+« min 6 » comme pour « 4 à 4 », aucun jeu n'ayant un minimum supérieur à 5.
+La logique vit à un seul endroit, `jeuPasseFiltresNonTextuels()` dans `app.js`.
+
 ## Filet de sécurité : validation automatique
 
 Comme `COVERS`, `JEUX_A_VENDRE` et `RECOMMENDATIONS` référencent des jeux par leur

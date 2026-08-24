@@ -132,7 +132,9 @@
   .categories-toggle:focus-visible,
   .search-tag:focus-visible,
   .filter-btn:focus-visible,
+  .shelf-tab:focus-visible,
   .filters__reset:focus-visible,
+  .filters__validate:focus-visible,
   .random-btn:focus-visible,
   .back-to-list-btn:focus-visible,
   .welcome-screen__cta:focus-visible,
@@ -142,6 +144,10 @@
   .brand:focus-visible,
   .soirees-card__cta:focus-visible,
   .lightbox__close:focus-visible,
+  .programme-popup__close:focus-visible,
+  .programme-popup__item-cta:focus-visible,
+  .programme-bubble__btn:focus-visible,
+  .programme-bubble__dismiss:focus-visible,
   .game-item__name:focus-visible,
   .game-item__cover:focus-visible{
     outline:3px solid var(--orange);
@@ -814,6 +820,55 @@
     border-color: var(--orange-accent-primary);
   }
 
+  /* Filtre par étagère, juste au-dessus de la liste.
+     La liste est groupée par étagère : atteindre la troisième obligeait à
+     faire défiler les deux premières en entier, soit plus de 150 jeux.
+
+     Choix de couleur : l'état actif utilise --filter-active-bg (teal), la
+     couleur dédiée aux filtres actifs, et NON l'orange de marque qui reste
+     réservé aux actions prioritaires (voir la note du README sur le
+     système visuel). Ces boutons sont bien des filtres, pas des onglets de
+     navigation comme .tab-btn — d'où le traitement en pastilles plutôt
+     qu'en soulignement. */
+  .shelf-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:20px 20px 0;
+  }
+
+  .shelf-tab{
+    flex:1 1 auto;
+    padding:9px 14px;
+    border:1px solid var(--chip-surface-border);
+    background:var(--chip-surface-bg);
+    color:var(--chip-surface-text);
+    border-radius:var(--chip-radius);
+    font-size:var(--text-sm);
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    white-space:nowrap;
+  }
+
+  .shelf-tab:hover{
+    border-color:var(--orange);
+    color:var(--orange);
+  }
+
+  .shelf-tab.is-active{
+    background:var(--filter-active-bg);
+    border-color:var(--filter-active-bg);
+    color:var(--filter-active-text);
+  }
+
+  /* L'écran du bar est étroit : les libellés doivent rester sur une ligne
+     et les quatre boutons tenir en largeur. */
+  @media (max-width:480px){
+    .shelf-tabs{gap:6px; padding:16px 12px 0;}
+    .shelf-tab{padding:8px 6px; font-size:var(--text-2xs); flex:1 1 0; min-width:0;}
+  }
+
   .results{
     padding:20px 20px 0;
     display:flex;
@@ -1441,7 +1496,6 @@
   }
 
   .filters__reset{
-    margin-left: auto;
     padding: 7px 14px;
     border: 1.5px solid var(--danger);
     background: transparent;
@@ -1463,6 +1517,28 @@
   .filters__reset:active{
     background: var(--danger);
     color: #FFFFFF;
+  }
+
+  .filters__validate{
+    margin-left: auto;
+    padding: 7px 14px;
+    border: 1.5px solid var(--orange);
+    background: var(--orange);
+    color: #FFFFFF;
+    border-radius: var(--chip-radius);
+    font-size:var(--text-xs);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .filters__validate:hover{
+    background: var(--orange-dark);
+  }
+
+  .filters__validate:active{
+    transform:translateY(1px);
   }
 
   .tab-intro{
@@ -1776,8 +1852,215 @@
     background:var(--orange-soft);
   }
 
+  /* Bulle "Programme du mois" : petit carré arrondi en bas à droite, seul
+     élément qui apparaît spontanément (5 s après avoir passé l'écran
+     d'accueil, voir DELAI_PROGRAMME_MS dans app.js). C'est le clic dessus qui
+     ouvre le panneau détaillé — rien ne recouvre l'écran sans geste du client.
+     Bas de page à droite : les deux autres boutons fixes (thème, remonter
+     en haut) occupent déjà le haut à droite. */
+  .programme-bubble{
+    position:fixed;
+    bottom:16px;
+    right:14px;
+    z-index:80;
+    animation:programme-bubble-in .55s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  .programme-bubble[hidden]{
+    display:none !important;
+  }
+
+  @keyframes programme-bubble-in{
+    0%{opacity:0; transform:translateY(24px) scale(.4) rotate(-8deg);}
+    60%{opacity:1; transform:translateY(-4px) scale(1.06) rotate(2deg);}
+    100%{opacity:1; transform:translateY(0) scale(1) rotate(0deg);}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .programme-bubble{animation:none;}
+  }
+
+  .programme-bubble__btn{
+    width:96px;
+    height:96px;
+    padding:8px 6px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    border:2px solid var(--orange);
+    border-radius:22px;
+    background:var(--orange);
+    color:#FFFFFF;
+    font-family:inherit;
+    font-size:var(--text-2xs);
+    font-weight:700;
+    line-height:1.2;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:background .15s ease, color .15s ease, transform .15s ease;
+  }
+
+  .programme-bubble__btn:hover{
+    background:#FFFFFF;
+    color:var(--orange-dark);
+    transform:translateY(-2px);
+  }
+
+  .programme-bubble__icon{
+    font-size:1.6rem;
+    line-height:1;
+  }
+
+  .programme-bubble__dismiss{
+    position:absolute;
+    top:-6px;
+    left:-6px;
+    width:24px;
+    height:24px;
+    border:1px solid var(--border);
+    border-radius:50%;
+    background:var(--paper);
+    color:var(--ink-soft);
+    font-size:var(--text-2xs);
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:var(--shadow);
+    transition:background .15s ease;
+  }
+
+  .programme-bubble__dismiss:hover{
+    background:var(--orange-soft);
+  }
+
+  /* Panneau détaillé du programme : ouvert UNIQUEMENT au clic sur la bulle.
+     Même fond assombri que la lightbox photo, panneau centré scrollable
+     pour rester lisible même avec plusieurs soirées listées. */
+  .programme-popup{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:fixed;
+    inset:0;
+    z-index:900;
+    background:rgba(42,33,26,0.8);
+    backdrop-filter:blur(4px);
+    padding:20px;
+  }
+
+  .programme-popup[hidden]{
+    display:none !important;
+  }
+
+  .programme-popup__panel{
+    position:relative;
+    width:100%;
+    max-width:300px;
+    max-height:70vh;
+    overflow-y:auto;
+    background:var(--paper);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:22px 18px 16px;
+    text-align:center;
+  }
+
+  .programme-popup__close{
+    position:absolute;
+    top:8px;
+    right:8px;
+    width:28px;
+    height:28px;
+    background:var(--cream);
+    border:none;
+    border-radius:50%;
+    font-size:var(--text-sm);
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .2s ease;
+  }
+
+  .programme-popup__close:hover{
+    background:var(--orange-soft);
+  }
+
+  .programme-popup__icon{
+    display:block;
+    font-size:1.5rem;
+    margin-bottom:4px;
+  }
+
+  .programme-popup__title{
+    margin:0 0 4px;
+    font-size:var(--text-base);
+    font-weight:800;
+    color:var(--ink);
+  }
+
+  .programme-popup__text{
+    margin:0 0 14px;
+    color:var(--ink-soft);
+    font-size:var(--text-xs);
+  }
+
+  .programme-popup__list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .programme-popup__item{
+    background:var(--cream);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px;
+    text-align:left;
+  }
+
+  .programme-popup__item-title{
+    margin:0 0 3px;
+    font-size:var(--text-sm);
+    font-weight:700;
+    color:var(--ink);
+  }
+
+  .programme-popup__item-text{
+    margin:0 0 8px;
+    font-size:var(--text-xs);
+    color:var(--ink-soft);
+  }
+
+  .programme-popup__item-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--orange);
+    color:#FFFFFF;
+    font-weight:700;
+    font-size:var(--text-2xs);
+    padding:6px 14px;
+    border-radius:999px;
+    text-decoration:none;
+    transition:background .2s ease;
+  }
+
+  .programme-popup__item-cta:hover{
+    background:var(--orange-dark);
+  }
+
   @media (max-width:480px){
     html{font-size:100%;} /* la base 106.25% (≈17px) donne un rendu trop "zoomé" sur petit écran : on revient à 16px */
+    .programme-bubble{bottom:12px; right:12px;}
+    .programme-bubble__btn{width:80px; height:80px; border-radius:18px;}
+    .programme-bubble__icon{font-size:1.35rem;}
     .app__header{padding:20px 16px 16px;}
     .brand h1{font-size:var(--text-lg);}
     .app__subtitle{margin-left:44px; font-size:var(--text-xs);}

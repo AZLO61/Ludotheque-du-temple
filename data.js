@@ -517,7 +517,7 @@
   // reçoit un badge, voir renderProgrammeItem dans app.js). Liste vide -> la
   // popup ne s'affiche pas.
   let PROGRAMME_DU_MOIS = [
-    { titre: "Le programme du mois", description: "Le résumé de nos soirées événement.", lien: "https://www.instagram.com/p/DbVqcBiMpgH/" },
+    { titre: "Le programme du mois", description: "Le résumé de nos soirées événement.", lien: "https://www.instagram.com/p/DcjJRrMs1pS/" },
     { titre: "Soirée à ne pas manquer le mois prochain", description: "", lien: "https://www.instagram.com/p/DbvabzcsmeS/", avant: true },
   ];
 

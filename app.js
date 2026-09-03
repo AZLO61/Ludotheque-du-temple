@@ -91,16 +91,14 @@
         ? '<p class="programme-popup__item-text">' + echapperHTML(item.description) + '</p>'
         : '';
       // `avant: true` (voir data.js) marque l'entrée qu'on veut particulièrement
-      // mettre en avant : un badge, plutôt qu'un traitement identique à toutes
-      // les entrées qui ne la distinguerait pas.
-      const badgeAvant = item.avant
-        ? '<span class="programme-popup__item-badge">✨ À ne pas manquer</span>'
-        : '';
+      // mettre en avant : elle reçoit un encadré distinct et un libellé de lien
+      // qui parle de la soirée, plutôt qu'un traitement identique à toutes les
+      // entrées qui ne la distinguerait pas.
+      const libelleCta = item.avant ? 'Découvrir la soirée' : 'En savoir plus';
       return '<div class="programme-popup__item' + (item.avant ? ' programme-popup__item--avant' : '') + '">'
-        + badgeAvant
         + '<p class="programme-popup__item-title">' + echapperHTML(item.titre) + '</p>'
         + description
-        + '<a class="programme-popup__item-cta" href="' + echapperHTML(item.lien) + '" target="_blank" rel="noopener">📸 Voir sur Instagram</a>'
+        + '<a class="programme-popup__item-cta" href="' + echapperHTML(item.lien) + '" target="_blank" rel="noopener">' + libelleCta + '</a>'
         + '</div>';
     }).join('');
 

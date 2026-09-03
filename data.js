@@ -504,18 +504,23 @@
   // Jeux actuellement à vendre (collection en double, jeux non gardés, etc.)
   // Chaque entrée : nom (peut reprendre un nom de COVERS pour afficher la jaquette),
   // prix (texte libre, ex: "10 €"), et un état facultatif.
-  // ⚠️ EXEMPLES à remplacer/compléter par la vraie liste de l'équipe.
   let JEUX_A_VENDRE = [
-    { nom: "Munchkin", prix: "8 €", etat: "Bon état, complet" },
-    { nom: "Uno", prix: "3 €", etat: "Bon état" },
+    { nom: "Petits Peuples", prix: "12 €" },
+    { nom: "Prophétie", prix: "10 €" },
+    { nom: "Colt Express", prix: "12 €" },
+    { nom: "Santorini", prix: "12 €" },
+    { nom: "Lost Cities", prix: "12 €" },
+    { nom: "Ménestrel", prix: "10 €" },
+    { nom: "Bâtisseurs", prix: "6 €" },
+    { nom: "Puzzle", prix: "21 €" },
   ];
 
   // Programme du mois : soirées événement mises en avant dans la popup qui
   // s'affiche à l'arrivée sur le site. Chaque entrée : titre, description
   // courte (facultative), lien vers la publication Instagram, et `avant: true`
   // facultatif pour l'entrée qu'on veut particulièrement mettre en avant (elle
-  // reçoit un badge, voir renderProgrammeItem dans app.js). Liste vide -> la
-  // popup ne s'affiche pas.
+  // reçoit un encadré distinct et le lien "Découvrir la soirée", voir
+  // ouvrirProgrammePopup dans app.js). Liste vide -> la popup ne s'affiche pas.
   let PROGRAMME_DU_MOIS = [
     { titre: "Le programme du mois", description: "Le résumé de nos soirées événement.", lien: "https://www.instagram.com/p/DcjJRrMs1pS/" },
     { titre: "Soirée à ne pas manquer le mois prochain", description: "", lien: "https://www.instagram.com/p/DbvabzcsmeS/", avant: true },

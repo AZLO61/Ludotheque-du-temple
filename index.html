@@ -95,6 +95,7 @@
       <span class="categories-toggle__indicator" aria-hidden="true"></span>
     </button>
     <div class="search-tags" id="searchCategories">
+     <div class="search-tags__inner">
       <button class="search-tag search-tag--new" data-tag="Nouveauté">✨ Nouveauté</button>
       <button class="search-tag" data-tag="Ambiance">😂 Ambiance</button>
       <button class="search-tag" data-tag="Cartes">🃏 Cartes</button>
@@ -118,8 +119,7 @@
       <button class="search-tag" data-tag="Jeu de mot">🔤 Jeu de mot</button>
       <button class="search-tag" data-tag="Fourberie">😈 Fourberie</button>
       <button class="search-tag" data-tag="Solo">👤 Solo</button>
-
-
+     </div>
     </div>
 
     <div class="filters filters--search">
@@ -217,7 +217,8 @@
 <div id="lightbox" class="lightbox" hidden>
   <div class="lightbox__content">
     <div id="lightboxStage" class="lightbox__stage">
-      <img id="lightboxImg" class="lightbox__img" src="" alt="Agrandissement de la photo">
+      <!-- Placeholder transparent : la vraie photo est injectée par app.js à l'ouverture de la lightbox -->
+      <img id="lightboxImg" class="lightbox__img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Agrandissement de la photo">
       <div id="lightboxMarkers" class="lightbox__markers"></div>
     </div>
     <button id="lightboxClose" class="lightbox__close">✕</button>

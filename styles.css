@@ -561,7 +561,7 @@
     width:100%;
     margin-top:10px;
     padding:10px 14px;
-    border:2px solid var(--orange);
+    border:2px solid var(--orange-dark);
     border-radius:999px;
     background:var(--orange-dark);
     color:#FFFFFF;
@@ -958,8 +958,8 @@
      reste réservé aux aplats (logo, CTA, marqueurs) ; en texte sur les
      surfaces sombres il tombe sous le seuil AA, on le remonte ici. */
   [data-theme="dark"] .back-to-list-btn,
-  [data-theme="dark"] .shelf-tab:hover,
-  [data-theme="dark"] .filter-btn:hover,
+  [data-theme="dark"] .shelf-tab:not(.is-active):hover,
+  [data-theme="dark"] .filter-btn:not(.active):hover,
   [data-theme="dark"] .game-item__name:hover{
     color:#FF7A3D;
   }
@@ -1536,7 +1536,7 @@
   .filters__validate{
     margin-left: auto;
     padding: 7px 14px;
-    border: 1.5px solid var(--orange);
+    border: 1.5px solid var(--orange-dark);
     background: var(--orange-dark);
     color: #FFFFFF;
     border-radius: var(--chip-radius);
@@ -1549,6 +1549,7 @@
 
   .filters__validate:hover{
     background: var(--orange-deep);
+    border-color: var(--orange-deep);
   }
 
   .filters__validate:active{
@@ -1902,7 +1903,7 @@
     align-items:center;
     justify-content:center;
     gap:2px;
-    border:2px solid var(--orange);
+    border:2px solid var(--orange-dark);
     border-radius:16px;
     background:var(--orange-dark);
     color:#FFFFFF;

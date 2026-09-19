@@ -154,9 +154,14 @@
       html += '<span class="game-item__meta-text">' + echapperHTML(item.etat) + '</span>';
     }
     html += '</div>';
-    if (jeuCatalogue && jeuCatalogue.categories && jeuCatalogue.categories.length > 0){
+    // Thématiques : celles saisies sur l'entrée à vendre (jeu absent du
+    // catalogue), sinon celles de sa fiche catalogue s'il y est encore.
+    const categoriesVente = (item.categories && item.categories.length > 0)
+      ? item.categories
+      : ((jeuCatalogue && jeuCatalogue.categories) || []);
+    if (categoriesVente.length > 0){
       html += '<div class="game-item__tags-chips">';
-      jeuCatalogue.categories.forEach(function(cat){
+      categoriesVente.forEach(function(cat){
         html += '<span class="chip--category-reco">' + iconePourCategorie(cat) + echapperHTML(cat) + '</span>';
       });
       html += '</div>';
@@ -251,6 +256,44 @@
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase()
       .trim();
+  }
+
+  // Mots ignorés dans la recherche : articles, prépositions et conjonctions,
+  // en français comme en anglais. Taper "colline feux follets" ou "mind" doit
+  // trouver "La Colline aux Feux Follets" et "The Mind".
+  const MOTS_VIDES = new Set([
+    "le","la","les","l","un","une","des","du","de","d","au","aux","en","a",
+    "et","ou","the","of","an","and","or","to"
+  ]);
+
+  // Découpe un texte en mots comparables : sans accents, sans ponctuation,
+  // sans mots vides, et sans "s" final (à partir de 4 lettres, pour ne pas
+  // abîmer les mots courts). Objectif : que la recherche pardonne un article
+  // oublié, une esperluette, un tiret ou un pluriel.
+  function motsRecherche(texte){
+    return normaliser(texte)
+      .replace(/[^a-z0-9]+/g, " ")
+      .split(" ")
+      .filter(function(mot){ return mot && !MOTS_VIDES.has(mot); })
+      .map(function(mot){
+        return (mot.length >= 4 && mot.charAt(mot.length - 1) === "s") ? mot.slice(0, -1) : mot;
+      });
+  }
+
+  // Un jeu correspond si CHAQUE mot significatif de la saisie se retrouve dans
+  // son nom ou dans une de ses catégories. Si la saisie ne contient que des
+  // mots vides ("de", "the"...), on retombe sur l'ancienne comparaison brute :
+  // sinon une saisie comme "de" afficherait tout le catalogue.
+  function jeuCorrespondAuTexte(jeu, saisie){
+    const cible = jeu.nom + " " + ((jeu.categories || []).join(" "));
+    const motsSaisis = motsRecherche(saisie);
+    if (motsSaisis.length === 0) {
+      return normaliser(cible).includes(normaliser(saisie));
+    }
+    const motsCible = motsRecherche(cible);
+    return motsSaisis.every(function(mot){
+      return motsCible.some(function(candidat){ return candidat.includes(mot); });
+    });
   }
 
   function echapperHTML(texte){
@@ -705,11 +748,9 @@
 
     // Filtre texte
     if (searchInput.value.trim().length > 0) {
-      const q = normaliser(searchInput.value);
+      const saisie = searchInput.value;
       result = result.filter(function(j) {
-        const nomMatch = normaliser(j.nom).includes(q);
-        const catMatch = j.categories && j.categories.some(c => normaliser(c).includes(q));
-        return nomMatch || catMatch;
+        return jeuCorrespondAuTexte(j, saisie);
       });
     }
 
@@ -903,11 +944,33 @@
     recommendationsListEl.innerHTML = html;
   }
 
+  // Après avoir tapé un nom, on ramène le panneau "joueurs / durée / Valider"
+  // à l'écran : sur téléphone il est poussé hors de vue par le clavier et par
+  // les résultats, et il fallait remonter à la main pour enchaîner dessus.
+  // Déclenché à la FIN de la saisie (et non à chaque frappe, qui ferait sauter
+  // la page pendant qu'on écrit) ; un clic sur un jeu, lui, ne déclenche rien
+  // (chercherJeu remplit le champ sans émettre d'événement "input").
+  const panneauFiltres = document.querySelector(".filters--search");
+  const DELAI_PANNEAU_MS = 700;
+  let minuteurPanneau = null;
+
+  function ramenerPanneauFiltres(){
+    clearTimeout(minuteurPanneau);
+    if (!panneauFiltres || searchInput.value.trim().length === 0) return;
+    minuteurPanneau = setTimeout(function(){
+      // Re-test : le champ a pu être vidé (croix, "Retour à la liste") pendant
+      // l'attente, et remonter dans ce cas serait un saut inexpliqué.
+      if (searchInput.value.trim().length === 0) return;
+      panneauFiltres.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, DELAI_PANNEAU_MS);
+  }
+
   // Événements Recherche & Effacement
   searchInput.addEventListener("input", function(){
     clearBtn.hidden = searchInput.value.length === 0;
     definirModeHasard(false);
     afficher();
+    ramenerPanneauFiltres();
   });
 
   clearBtn.addEventListener("click", function(){

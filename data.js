@@ -204,7 +204,7 @@
     "Camarades": "https://www.myludo.fr/img/jeux/1755681946/160/dj/87312.png",
     "Jungo": "https://www.myludo.fr/img/jeux/1765047651/160/da/78952.png",
     "Crack list": "https://www.myludo.fr/img/jeux/1768549035/160/cc/54187.png",
-    "Left Right": "https://www.myludo.fr/img/jeux/1745053462/160/ch/59573.png",
+    "Left or Right": "https://www.myludo.fr/img/jeux/1745053462/160/ch/59573.png",
     "Sky team": "https://www.myludo.fr/img/jeux/1772980134/160/cm/64645.png",
     "Back Stories": "https://www.myludo.fr/img/jeux/1737802048/160/cx/75629.png",
     "Time bomb Undercover": "https://www.myludo.fr/img/jeux/1757184344/160/cx/75469.png",
@@ -224,6 +224,21 @@
     "Catan marin": "https://www.myludo.fr/img/jeux/1763126769/160/cb/53265.png",
     "Monopoly deal": "https://www.myludo.fr/img/jeux/1771096161/160/cz/77366.png",
     "Mito": "https://www.myludo.fr/img/jeux/1776762646/160/bv/47318.png",
+    "Petits Peuples": "https://www.myludo.fr/img/jeux/1741867993/160/by/50996.png",
+    "Ménestrel": "https://www.myludo.fr/img/jeux/1679872049/160/bf/31746.png",
+    "Prophétie": "https://www.myludo.fr/img/jeux/1768737306/160/cj/61590.png",
+    "Santorini": "https://www.myludo.fr/img/jeux/1768945601/160/ax/23865.png",
+    "Lost Cities": "https://www.myludo.fr/img/jeux/1732451359/160/bh/33474.png",
+    "Bâtisseurs": "https://www.myludo.fr/img/jeux/1721479441/160/ac/2034.png",
+    "Qui est-ce ? – Super Mario": "https://www.myludo.fr/img/jeux/1673229215/160/ci/60280.png",
+    "À l'abri les Zanimos": "https://www.myludo.fr/img/jeux/1686031405/160/cp/67294.png",
+    "Dodo": "https://www.myludo.fr/img/jeux/1772980436/160/ce/56072.png",
+    "Daydream": "https://www.myludo.fr/img/jeux/1788427480/160/de/82800.png",
+    "Plante Bataille": "https://www.myludo.fr/img/jeux/1768468148/160/dl/89133.png",
+    "Pas le choix": "https://www.myludo.fr/img/jeux/1757617278/160/dj/87733.png",
+    "Time bomb": "https://www.myludo.fr/img/jeux/1753053696/160/aa/327.png",
+    "Très Futé !": "https://www.myludo.fr/img/jeux/1779482112/160/ay/24557.png",
+    "Shit Happens": "https://www.myludo.fr/img/jeux/1710359300/160/ax/23504.png",
     "Betrayal at Baldur's Gate": "https://www.myludo.fr/img/jeux/1697745808/160/ct/71347.png"
 
   };
@@ -283,7 +298,7 @@
     { nom: "Esquissé ?", case: "caseA", emplacement: 3, joueurs: [3, 8], duree: 30, categories: ["Ambiance", "Dessin"], difficulte: 1 },
     { nom: "Skyjo", case: "caseC", emplacement: 1, joueurs: [2, 8], duree: 15, categories: ["Cartes"], difficulte: 1 },
     { nom: "Complices", case: "caseB", emplacement: 3, joueurs: [2, 4], duree: 20, categories: ["Dessin", "Coopératif"], difficulte: 1 },
-    { nom: "Diamant", case: "caseB", emplacement: 1, joueurs: [3, 8], duree: 30, categories: ["Ambiance", "Plateau", "Stop ou encore"], isNew: true, difficulte: 2 },
+    { nom: "Diamant", case: "caseB", emplacement: 1, joueurs: [3, 8], duree: 30, categories: ["Ambiance", "Plateau", "Stop ou encore"], difficulte: 2 },
     { nom: "La Colline aux Feux Follets", case: "caseA", emplacement: 4, joueurs: [1, 4], duree: 20, categories: ["Adresse", "Plateau", "Enfants"], difficulte: 1 },
     { nom: "Clefs Magiques", case: "caseA", emplacement: 4, joueurs: [2, 4], duree: 15, categories: ["Dés", "Plateau", "Enfants"], difficulte: 1 },
     { nom: "Kiki va sortir les poubelles ?", case: "caseC", emplacement: 2, joueurs: [3, 8], duree: 10, categories: ["Ambiance", "Cartes"], difficulte: 1 },
@@ -461,7 +476,7 @@
     { nom: "Jungo", case: "caseC", emplacement: 6, joueurs: [2, 4], duree: 25, categories: ["Cartes"], difficulte: 1 },
     { nom: "Crack list", case: "caseC", emplacement: 2, joueurs: [2, 8], duree: 30, categories: ["Ambiance", "Cartes"], difficulte: 1 },
     { nom: "Cambrouillolage", case: "caseB", emplacement: 4, joueurs: [2, 6], duree: 30, categories: ["Cartes", "Fourberie"], difficulte: 2 },
-    { nom: "Left Right", case: "caseC", emplacement: 2, joueurs: [3, 6], duree: 20, categories: ["Ambiance"], difficulte: 1 },
+    { nom: "Left or Right", case: "caseC", emplacement: 2, joueurs: [3, 6], duree: 20, categories: ["Ambiance"], difficulte: 1 },
     { nom: "Sky team", case: "caseB", emplacement: 2, joueurs: [2, 2], duree: 15, categories: ["Plateau", "Dés", "Jeu à 2"], difficulte: 3 },
     { nom: "Back Stories", case: "caseC", emplacement: 9, joueurs: [1, 6], duree: 60, categories: ["Énigme", "Cartes"], difficulte: 2 },
     { nom: "Time bomb Undercover", case: "caseB", emplacement: 4, joueurs: [4, 8], duree: 15, categories: ["Ambiance", "Identité cachée"], difficulte: 1 },
@@ -484,6 +499,15 @@
     { nom: "Monopoly deal", case: "caseB", emplacement: 1, joueurs: [2, 5], duree: 15, categories: ["Ambiance", "Fourberie"], difficulte: 1 },
     { nom: "Opération zébre", case: "caseC", emplacement: 10, joueurs: [2, 12], duree: 45, categories: ["Ambiance", "Quiz"], difficulte: 2 },
     { nom: "Mito", case: "caseC", emplacement: 6, joueurs: [3, 5], duree: 20, categories: ["Ambiance", "Cartes", "Fourberie"], difficulte: 1 },
+    { nom: "Qui est-ce ? – Super Mario", case: "caseB", emplacement: 5, joueurs: [2, 2], duree: 20, categories: ["Déduction", "Enfants"], difficulte: 1 },
+    { nom: "À l'abri les Zanimos", case: "caseA", emplacement: 4, joueurs: [1, 4], duree: 10, categories: ["Plateau", "Coopératif", "Enfants", "Solo"], difficulte: 1 },
+    { nom: "Dodo", case: "caseA", emplacement: 4, joueurs: [2, 4], duree: 10, categories: ["Plateau", "Coopératif", "Adresse", "Enfants"], difficulte: 1 },
+    { nom: "Daydream", case: "caseB", emplacement: 1, joueurs: [1, 5], duree: 20, categories: ["Dés", "Solo"], isNew: true, difficulte: 2 },
+    { nom: "Plante Bataille", case: "caseB", emplacement: 1, joueurs: [3, 6], duree: 15, categories: ["Cartes"], isNew: true, difficulte: 1 },
+    { nom: "Pas le choix", case: "caseB", emplacement: 1, joueurs: [2, 10], duree: 20, categories: ["Ambiance", "Déduction"], isNew: true, difficulte: 1 },
+    { nom: "Time bomb", case: "caseB", emplacement: 4, joueurs: [4, 8], duree: 15, categories: ["Ambiance", "Identité cachée"], difficulte: 2 },
+    { nom: "Très Futé !", case: "caseB", emplacement: 6, joueurs: [1, 4], duree: 30, categories: ["Dés", "Solo"], difficulte: 2 },
+    { nom: "Shit Happens", case: "caseC", emplacement: 6, joueurs: [2, 8], duree: 20, categories: ["Ambiance", "Cartes"], difficulte: 1 },
 
   ];
 
@@ -503,15 +527,19 @@
 
   // Jeux actuellement à vendre (collection en double, jeux non gardés, etc.)
   // Chaque entrée : nom (peut reprendre un nom de COVERS pour afficher la jaquette),
-  // prix (texte libre, ex: "10 €"), et un état facultatif.
+  // prix (texte libre, ex: "10 €"), un état facultatif, et des `categories`
+  // facultatives. Les catégories servent à afficher les mêmes chips de
+  // thématique que dans le catalogue : à ne renseigner que pour un jeu ABSENT
+  // de JEUX (sinon il reprend automatiquement celles de sa fiche catalogue).
+  // Utiliser le même vocabulaire que JEUX, sinon la chip s'affiche sans icône.
   let JEUX_A_VENDRE = [
-    { nom: "Petits Peuples", prix: "12 €" },
-    { nom: "Prophétie", prix: "10 €" },
+    { nom: "Petits Peuples", prix: "12 €", categories: ["Plateau", "Stratégie"] },
+    { nom: "Prophétie", prix: "10 €", categories: ["Cartes", "Stratégie"] },
     { nom: "Colt Express", prix: "12 €" },
-    { nom: "Santorini", prix: "12 €" },
-    { nom: "Lost Cities", prix: "12 €" },
-    { nom: "Ménestrel", prix: "10 €" },
-    { nom: "Bâtisseurs", prix: "6 €" },
+    { nom: "Santorini", prix: "12 €", categories: ["Plateau", "Stratégie"] },
+    { nom: "Lost Cities", prix: "12 €", categories: ["Plateau", "Stratégie"] },
+    { nom: "Ménestrel", prix: "10 €", categories: ["Cartes"] },
+    { nom: "Bâtisseurs", prix: "6 €", categories: ["Cartes", "Stratégie"] },
     { nom: "Puzzle", prix: "21 €" },
   ];
 
@@ -523,7 +551,6 @@
   // ouvrirProgrammePopup dans app.js). Liste vide -> la popup ne s'affiche pas.
   let PROGRAMME_DU_MOIS = [
     { titre: "Le programme du mois", description: "Le résumé de nos soirées événement.", lien: "https://www.instagram.com/p/DcjJRrMs1pS/" },
-    { titre: "Soirée à ne pas manquer le mois prochain", description: "", lien: "https://www.instagram.com/p/DbvabzcsmeS/", avant: true },
   ];
 
   // --------------------------------------------------------------
